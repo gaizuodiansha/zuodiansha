@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-    <title>该做啥 · 马年人生进度滚雪球 · 最终稳定版</title>
+    <title>该做啥 · 马年人生进度滚雪球</title>
     <style>
         * {
             margin: 0;
@@ -30,7 +30,7 @@
             position: relative;
             border: 1px solid #ffd9cf;
         }
-        
+
         /* 置顶克隆进度条容器 */
         #sticky-progress-container {
             position: fixed;
@@ -49,7 +49,7 @@
             margin: 0 auto;
             padding: 0 24px;
         }
-        
+
         /* 烟花彩蛋 */
         .firework {
             position: fixed;
@@ -115,7 +115,7 @@
         .modal-btn.cancel {
             background: #e0e0e0;
         }
-        
+
         /* 图片浮层样式 */
         .image-modal-overlay {
             position: fixed;
@@ -183,7 +183,7 @@
             background: #C7452B;
             color: white;
         }
-        
+
         /* 全局工具栏 */
         .global-toolbar {
             display: flex;
@@ -216,7 +216,7 @@
             background: #8B4B3E;
             border-color: #8B4B3E;
         }
-        
+
         /* 马年新春横幅 */
         .new-year-banner {
             background: linear-gradient(90deg, #C7452B, #E86B4F);
@@ -251,7 +251,7 @@
             font-size: 24px;
             margin: 0 6px;
         }
-        
+
         .snow-header {
             display: flex;
             justify-content: space-between;
@@ -278,7 +278,7 @@
             font-weight: 600;
             box-shadow: 0 4px 8px rgba(199,69,43,0.3);
         }
-        
+
         /* 进度条模块 */
         #progress-module {
             background: linear-gradient(145deg, #fff0e8, #fff8f5);
@@ -358,25 +358,16 @@
             border: 1px dashed #C7452B;
             box-shadow: none;
         }
-        
-        /* 等级预览 */
-        #level-preview {
-            margin-top: 16px;
-            background: #fff0e8;
-            border-radius: 40px;
-            padding: 12px 18px;
-            font-size: 15px;
-            color: #8B4B3E;
-            border-left: 6px solid #C7452B;
-        }
-        
+
+        /* 等级预览已删除 */
+
         .chapter-list {
             display: flex;
             flex-direction: column;
             gap: 24px;
             margin-bottom: 30px;
         }
-        
+
         .chapter-card {
             background: #fff8f5;
             border-radius: 24px;
@@ -384,7 +375,7 @@
             border: 1px solid #ffd9cf;
             box-shadow: 0 2px 8px rgba(199,69,43,0.05);
         }
-        
+
         .chapter-header {
             display: flex;
             align-items: center;
@@ -449,7 +440,7 @@
         .chapter-toggle.collapsed {
             transform: rotate(-90deg);
         }
-        
+
         .chapter-actions {
             display: flex;
             gap: 10px;
@@ -480,7 +471,7 @@
             border-color: #c00;
             color: white;
         }
-        
+
         .task-list {
             margin-top: 5px;
             padding-left: 40px;
@@ -488,7 +479,7 @@
         .task-list.collapsed {
             display: none;
         }
-        
+
         .task-item {
             display: flex;
             align-items: center;
@@ -551,7 +542,7 @@
             color: #c00;
             transform: scale(1.1);
         }
-        
+
         .qrcode-footer {
             background: linear-gradient(145deg, #fff0e8, #fff8f5);
             border-radius: 24px;
@@ -614,7 +605,7 @@
             font-size: 24px;
             margin-right: 8px;
         }
-        
+
         .action-button {
             background: linear-gradient(145deg, #C7452B, #E86B4F);
             border: none;
@@ -641,6 +632,8 @@
             transform: scale(0.97);
             background: #C7452B;
         }
+
+        /* 底部统计 */
         .footer-note {
             text-align: center;
             color: #E86B4F;
@@ -657,7 +650,7 @@
             padding-top: 12px;
             border-top: 1px dashed #ffd9cf;
         }
-        
+
         .toast {
             position: fixed;
             bottom: 30px;
@@ -731,7 +724,7 @@
             .action-button { font-size: 20px; padding: 16px 0; }
             .top-blessing { font-size: 16px; padding: 10px; }
             .new-year-banner { font-size: 18px; padding: 10px; }
-            .wisdom-tip, #level-preview, .ad-banner { font-size: 14px; padding: 12px; }
+            .wisdom-tip, .ad-banner { font-size: 14px; padding: 12px; }
             .qrcode-footer p { font-size: 18px; }
             .qrcode-footer .sub { font-size: 14px; }
             .blessing-message { font-size: 16px; padding: 12px; }
@@ -773,13 +766,36 @@
             .action-button { font-size: 28px; padding: 22px 0; }
             .top-blessing { font-size: 20px; }
             .new-year-banner { font-size: 24px; }
-            .wisdom-tip, #level-preview { font-size: 16px; }
+            .wisdom-tip { font-size: 16px; }
             .footer-note { font-size: 16px; }
         }
 
         @media (hover: none) {
             .task-delete { opacity: 0.5; }
             .task-item:hover .task-delete { opacity: 0.5; }
+        }
+
+        /* 底部增加关卡按钮样式（与原程序一致） */
+        .add-chapter-btn {
+            background: #fff0e8;
+            border: 2px dashed #C7452B;
+            color: #C7452B;
+            padding: 18px;
+            border-radius: 50px;
+            width: 100%;
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 20px 0 10px;
+        }
+        .add-chapter-btn:hover {
+            background: #C7452B;
+            color: white;
         }
     </style>
     <!-- 主用 CDN -->
@@ -790,7 +806,7 @@
 <body>
     <!-- 烟花彩蛋 -->
     <div id="firework" class="firework"></div>
-    
+
     <!-- 删除确认弹窗 -->
     <div id="deleteModal" class="modal">
         <div class="modal-content">
@@ -818,105 +834,95 @@
             <button class="global-btn reset" id="resetBtn">🔄 重置清单</button>
         </div>
 
-        <!-- 问卷区域 - 所有要截图的内容都在这里 -->
-        <div id="questionnaire-section">
-            <!-- 马年新春横幅 -->
-            <div class="new-year-banner">
-                🐴 马年大吉 · 一马当先 · 万事胜意 🧧
+        <!-- 马年新春横幅 -->
+        <div class="new-year-banner">
+            🐴 马年大吉 · 一马当先 · 万事胜意 🧧
+        </div>
+
+        <!-- 顶部祝福语 -->
+        <div class="top-blessing">
+            <span>🎊</span> 祝我的好朋友马年大吉，新年快乐！ <span>🎊</span>
+        </div>
+
+        <div class="snow-header">
+            <h2><span>🐴 马年看看你是什么马？</span></h2>
+            <span class="snow-badge" id="percentBadge">0%</span>
+        </div>
+
+        <!-- 进度条模块 -->
+        <div id="progress-module">
+            <div class="progress-title">
+                <span>🧧 马年已解锁人生关卡</span>
+                <span class="stats-number" id="progressCount">0/0</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div id="progressFill" class="progress-fill" style="width: 0%;"></div>
+            </div>
+            <div class="progress-stats">
+                <span>🐎 马年进度</span>
+                <span><span id="percentDisplay">0</span>%</span>
             </div>
 
-            <!-- 顶部祝福语 -->
-            <div class="top-blessing">
-                <span>🎊</span> 祝我的好朋友马年大吉，新年快乐！ <span>🎊</span>
+            <!-- 动态温馨提示语 -->
+            <div id="wisdomTip" class="wisdom-tip">
+                🌱 慢慢来，每一步都算数。
             </div>
 
-            <div class="snow-header">
-                <h2><span>🐴 马年看看你是什么马？</span></h2>
-                <span class="snow-badge" id="percentBadge">0%</span>
-            </div>
-            
-            <!-- 进度条模块 -->
-            <div id="progress-module">
-                <div class="progress-title">
-                    <span>🧧 马年已解锁人生关卡</span>
-                    <span class="stats-number" id="progressCount">0/0</span>
-                </div>
-                <div class="progress-bar-bg">
-                    <div id="progressFill" class="progress-fill" style="width: 0%;"></div>
-                </div>
-                <div class="progress-stats">
-                    <span>🐎 马年进度</span>
-                    <span><span id="percentDisplay">0</span>%</span>
-                </div>
-
-                <!-- 动态温馨提示语 -->
-                <div id="wisdomTip" class="wisdom-tip">
-                    🌱 慢慢来，每一步都算数。
-                </div>
-
-                <!-- 淡化广告条 -->
-                <div class="ad-banner">
-                    🔍 关注「该做啥」生成你的同款人生进度
-                </div>
-
-                <!-- 进度条下方实时等级预览 -->
-                <div id="level-preview">
-                    当前进度：<span id="current-percent">0</span>% → 你即将解锁：【<span id="current-level-name">小马驹</span> · <span id="current-level-desc">初生牛犊不怕虎（虽然你是马）</span>】
-                </div>
+            <!-- 淡化广告条 -->
+            <div class="ad-banner">
+                🔍 关注「该做啥」生成你的同款人生进度
             </div>
 
-            <!-- 动态渲染清单关卡（默认折叠） -->
-            <div id="chapterContainer" class="chapter-list"></div>
-            
-            <!-- 底部增加关卡按钮 -->
-            <button id="addChapterBtn" class="add-chapter-btn" style="background: #fff0e8; border: 2px dashed #C7452B; color: #C7452B; padding: 18px; border-radius: 50px; width: 100%; font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; margin: 20px 0 10px;">
-                ➕ 增加新关卡
-            </button>
-            
-            <!-- 查看我是什么马按钮 -->
-            <button id="reveal-horse-btn" class="action-button" style="margin: 20px 0; background: linear-gradient(145deg, #C7452B, #E86B4F);">
-                🎲 点击查看我是什么马
-            </button>
+            <!-- 等级预览已删除 -->
+        </div>
 
-            <!-- 马年人格结果区域（初始隐藏） -->
-            <div id="horse-result" style="display: none;">
-                <div id="rolling-area" style="display: none;">🎲 占卜中...</div>
-                <div id="result-display">
-                    <div class="result-title">🐴 测试我是什么马？</div>
-                    <div style="text-align: center; margin-bottom: 16px;">
-                        <span style="font-size: 48px;">🐴</span>
-                    </div>
-                    <div style="font-size: 22px; font-weight: 700; color: #C7452B; text-align: center; margin-bottom: 8px;">
-                        <span id="result-horse-name">小马驹</span> · <span id="result-horse-desc">初生牛犊不怕虎</span>
-                    </div>
-                    <div class="fortune-box">
-                        <span id="result-fortune">今年你会遇到一个“伯乐”，但他可能只是问你路怎么走——没关系，你指的路他自己走错了。</span>
-                    </div>
-                    <div style="display: flex; gap: 12px; justify-content: center;">
-                        <button id="retest-btn" class="global-btn" style="flex: 1; background: #fff0e8;">🔄 再测一次</button>
-                        <button id="share-result-btn" class="global-btn" style="flex: 1; background: #fff0e8;">📤 分享结果</button>
-                    </div>
-                </div>
-            </div>
+        <!-- 关卡列表容器 -->
+        <div id="chapterList" class="chapter-list"></div>
 
-            <!-- 二维码区域（带祝福语） -->
-            <div id="qrcode-footer" class="qrcode-footer">
-                <div class="blessing-message">
-                    <span>🐴</span> 祝我的好朋友马年大吉，万事顺遂 <span>🧧</span>
-                </div>
+        <!-- 底部增加关卡按钮 -->
+        <button id="addChapterBtn" class="add-chapter-btn">➕ 增加新关卡</button>
 
-                <div class="qrcode-placeholder">
-                    <div class="qrcode-grid" id="qrcode-grid"></div>
+        <!-- 查看我是什么马按钮 -->
+        <button id="reveal-horse-btn" class="action-button" style="margin: 20px 0;">🎲 点击查看我是什么马</button>
+
+        <!-- 马年结果区域（初始隐藏） -->
+        <div id="horse-result" style="display: none;">
+            <div id="rolling-area" style="display: none;">🎲 占卜中...</div>
+            <div id="result-display">
+                <div class="result-title">🐴 测试我是什么马？</div>
+                <div style="text-align: center; margin-bottom: 16px;">
+                    <span style="font-size: 48px;">🐴</span>
                 </div>
-                <p>🐴 关注「该做啥」· 马到成功</p>
-                <p class="sub">生成你的马年人生进度 · 分享好运</p>
+                <div style="font-size: 22px; font-weight: 700; color: #C7452B; text-align: center; margin-bottom: 8px;">
+                    <span id="result-horse-name">小马驹</span> · <span id="result-horse-desc">初生牛犊不怕虎</span>
+                </div>
+                <div class="fortune-box">
+                    <span id="result-fortune">今年你会遇到一个“伯乐”，但他可能只是问你路怎么走——没关系，你指的路他自己走错了。</span>
+                </div>
+                <div style="display: flex; gap: 12px; justify-content: center;">
+                    <button id="retest-btn" class="global-btn" style="flex: 1; background: #fff0e8;">🔄 再测一次</button>
+                    <button id="share-result-btn" class="global-btn" style="flex: 1; background: #fff0e8;">📤 分享结果</button>
+                </div>
             </div>
         </div>
 
+        <!-- 二维码区域（带祝福语） -->
+        <div id="qrcode-footer" class="qrcode-footer">
+            <div class="blessing-message">
+                <span>🐴</span> 祝我的好朋友马年大吉，万事顺遂 <span>🧧</span>
+            </div>
+
+            <div class="qrcode-placeholder">
+                <div class="qrcode-grid" id="qrcode-grid"></div>
+            </div>
+            <p>🐴 关注「该做啥」· 马到成功</p>
+            <p class="sub">生成你的马年人生进度 · 分享好运</p>
+        </div>
+
         <!-- 生成长图按钮 -->
-        <button id="generateBtn" class="action-button">
-            🧧 生成马年长图 · 朋友圈接好运 🐴
-        </button>
+        <button id="generateBtn" class="action-button">🧧 生成马年长图 · 朋友圈接好运 🐴</button>
+
+        <!-- 底部统计 -->
         <div class="footer-note">
             <span id="selectedCountSmall">0</span>/<span id="totalCountSmall">0</span> 项已完成 · 马年一马当先
         </div>
@@ -929,8 +935,8 @@
 
     <!-- 轻提示浮层 -->
     <div id="toast" class="toast"></div>
-    
-    <!-- 结果占位（隐藏） -->
+
+    <!-- 隐藏的结果占位（供截图浮层使用） -->
     <div id="result" style="display: none;"></div>
 
     <script>
@@ -1137,20 +1143,17 @@
                 }
             ];
 
-            // 全局变量
-            let CHAPTERS = [];
+            // 状态管理
+            let chapters = [];
+            let expandedState = {};
             let checkedState = [];
-            let flatTasks = [];
-            let chapterIndexRange = [];
-            let chapterCollapsed = {};
             let currentEditChapter = null;
             let currentEditTask = null;
-            let currentEditChapterTitle = null;
             let rollingTimer = null;
             let pendingDeleteChapter = null;
 
             // DOM 元素
-            const chapterContainer = document.getElementById('chapterContainer');
+            const chapterList = document.getElementById('chapterList');
             const selectedCountSmall = document.getElementById('selectedCountSmall');
             const totalCountSmall = document.getElementById('totalCountSmall');
             const progressFill = document.getElementById('progressFill');
@@ -1167,7 +1170,7 @@
             const cancelDelete = document.getElementById('cancelDelete');
             const confirmDelete = document.getElementById('confirmDelete');
             const wisdomTip = document.getElementById('wisdomTip');
-            
+
             const revealBtn = document.getElementById('reveal-horse-btn');
             const horseResult = document.getElementById('horse-result');
             const rollingArea = document.getElementById('rolling-area');
@@ -1177,349 +1180,347 @@
             const resultFortune = document.getElementById('result-fortune');
             const retestBtn = document.getElementById('retest-btn');
             const shareBtn = document.getElementById('share-result-btn');
-            
-            const currentPercentSpan = document.getElementById('current-percent');
-            const currentLevelName = document.getElementById('current-level-name');
-            const currentLevelDesc = document.getElementById('current-level-desc');
+
+            // 等级预览相关元素已删除，不再获取
 
             const progressModule = document.getElementById('progress-module');
             const stickyContainer = document.getElementById('sticky-progress-container');
             const stickyProgressModule = document.getElementById('sticky-progress-module');
             const progressCountSpan = document.getElementById('progressCount');
 
-            // 加载数据
-            function loadData() {
-                const saved = localStorage.getItem('maYearChecklist');
+            // ========== 数据持久化 ==========
+            const STORAGE_KEY = 'maYearChecklist';
+            
+            function saveToLocalStorage() {
+                const data = {
+                    chapters: chapters,
+                    checkedState: checkedState,
+                    expandedState: expandedState
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            }
+
+            function loadFromLocalStorage() {
+                const saved = localStorage.getItem(STORAGE_KEY);
                 if (saved) {
                     try {
-                        CHAPTERS = JSON.parse(saved);
+                        const data = JSON.parse(saved);
+                        if (data.chapters && Array.isArray(data.chapters)) {
+                            chapters = data.chapters;
+                            checkedState = data.checkedState || [];
+                            expandedState = data.expandedState || {};
+                            // 确保checkedState长度与任务总数一致
+                            const totalTasks = chapters.reduce((sum, ch) => sum + ch.tasks.length, 0);
+                            if (checkedState.length !== totalTasks) {
+                                // 如果不一致，重新初始化checkedState
+                                checkedState = new Array(totalTasks).fill(false);
+                            }
+                            // 确保每个章节在expandedState中有记录，默认折叠
+                            chapters.forEach((_, idx) => {
+                                if (expandedState[idx] === undefined) expandedState[idx] = false;
+                            });
+                            return true;
+                        }
                     } catch (e) {
-                        CHAPTERS = JSON.parse(JSON.stringify(DEFAULT_CHAPTERS));
-                    }
-                } else {
-                    CHAPTERS = JSON.parse(JSON.stringify(DEFAULT_CHAPTERS));
-                }
-                CHAPTERS.forEach((_, idx) => { chapterCollapsed[idx] = true; });
-                rebuildFlatData();
-            }
-
-            function resetChecklist() {
-                if (confirm('确定要重置所有清单吗？当前进度将丢失。')) {
-                    localStorage.removeItem('maYearChecklist');
-                    CHAPTERS = JSON.parse(JSON.stringify(DEFAULT_CHAPTERS));
-                    chapterCollapsed = {};
-                    CHAPTERS.forEach((_, idx) => { chapterCollapsed[idx] = true; });
-                    rebuildFlatData();
-                    showToast('已重置为默认清单');
-                }
-            }
-
-            function saveData() {
-                localStorage.setItem('maYearChecklist', JSON.stringify(CHAPTERS));
-            }
-
-            function rebuildFlatData() {
-                flatTasks = [];
-                chapterIndexRange = [];
-                CHAPTERS.forEach((chapter, idx) => {
-                    const start = flatTasks.length;
-                    flatTasks = flatTasks.concat(chapter.tasks);
-                    chapterIndexRange.push({ start, end: flatTasks.length - 1 });
-                });
-                
-                const newCheckedState = new Array(flatTasks.length).fill(false);
-                if (checkedState.length > 0) {
-                    for (let i = 0; i < Math.min(checkedState.length, flatTasks.length); i++) {
-                        newCheckedState[i] = checkedState[i];
+                        console.warn('读取本地存储失败', e);
                     }
                 }
-                checkedState = newCheckedState;
-                
-                updateProgress();
-                renderChecklist();
-                saveData();
+                return false;
             }
 
+            // 初始化数据
+            function initData() {
+                if (!loadFromLocalStorage()) {
+                    // 无本地存储，使用默认
+                    chapters = JSON.parse(JSON.stringify(DEFAULT_CHAPTERS));
+                    // 默认所有关卡折叠
+                    chapters.forEach((_, idx) => { expandedState[idx] = false; });
+
+                    let taskIndex = 0;
+                    chapters.forEach(chapter => {
+                        chapter.tasks.forEach(() => {
+                            checkedState[taskIndex] = false;
+                            taskIndex++;
+                        });
+                    });
+                }
+            }
+
+            // 获取关卡进度
+            function getChapterCheckedCount(chapterIdx) {
+                let start = 0;
+                for (let i = 0; i < chapterIdx; i++) {
+                    start += chapters[i].tasks.length;
+                }
+                let count = 0;
+                for (let i = 0; i < chapters[chapterIdx].tasks.length; i++) {
+                    if (checkedState[start + i]) count++;
+                }
+                return count;
+            }
+
+            // 获取马等级
             function getHorseLevel(percent) {
-                if (percent < 20) return { level: 1, name: "小马驹", desc: "初生牛犊不怕虎（虽然你是马）" };
-                if (percent < 40) return { level: 2, name: "千里马", desc: "伯乐在路上了" };
-                if (percent < 60) return { level: 3, name: "战马", desc: "正在冲锋陷阵" };
-                if (percent < 80) return { level: 4, name: "领头马", desc: "后面跟着一串" };
-                return { level: 5, name: "老马识途", desc: "这辈子没白跑" };
+                if (percent < 20) return { name: "小马驹", desc: "初生牛犊不怕虎" };
+                if (percent < 40) return { name: "千里马", desc: "伯乐在路上了" };
+                if (percent < 60) return { name: "战马", desc: "正在冲锋陷阵" };
+                if (percent < 80) return { name: "领头马", desc: "后面跟着一串" };
+                return { name: "老马识途", desc: "这辈子没白跑" };
             }
 
+            // 更新进度
             function updateProgress() {
-                const checkedCount = checkedState.filter(v => v).length;
-                const percent = flatTasks.length === 0 ? 0 : Math.round((checkedCount / flatTasks.length) * 100);
-                
-                if (progressCountSpan) {
-                    progressCountSpan.innerText = checkedCount + '/' + flatTasks.length;
-                }
-                
-                selectedCountSmall.innerText = checkedCount;
-                totalCountSmall.innerText = flatTasks.length;
-                
+                const total = checkedState.length;
+                const checked = checkedState.filter(v => v).length;
+                const percent = total === 0 ? 0 : Math.round((checked / total) * 100);
+
+                progressCountSpan.textContent = `${checked}/${total}`;
                 progressFill.style.width = percent + '%';
-                percentDisplay.innerText = percent;
-                percentBadge.innerText = percent + '%';
-                
-                updateWisdomTip(percent);
+                percentDisplay.textContent = percent;
+                percentBadge.textContent = percent + '%';
 
-                const levelInfo = getHorseLevel(percent);
-                currentPercentSpan.innerText = percent;
-                currentLevelName.innerText = levelInfo.name;
-                currentLevelDesc.innerText = levelInfo.desc;
+                selectedCountSmall.textContent = checked;
+                totalCountSmall.textContent = total;
 
-                if (percent === 100 && flatTasks.length > 0) {
+                // 等级预览已删除，不再更新相关元素
+
+                // 更新温馨提示
+                if (percent < 20) wisdomTip.innerHTML = '🌱 才刚开始呢，像小马驹一样欢快地奔跑吧～';
+                else if (percent < 40) wisdomTip.innerHTML = '🍼 人生进度20%+，正是读书好时节。';
+                else if (percent < 60) wisdomTip.innerHTML = '💼 进度过半！像马儿一样，跑累了就停下来吃草。';
+                else if (percent < 80) wisdomTip.innerHTML = '🏠 70%+，家的意义越来越重。';
+                else if (percent < 100) wisdomTip.innerHTML = '⭐ 快圆满了！马年愿你剩下的每一步都踏在喜欢的路上。';
+                else wisdomTip.innerHTML = '🎉 100%！马到成功！这一局，你玩得很漂亮。';
+
+                // 烟花效果
+                if (percent === 100 && total > 0) {
                     firework.classList.add('show');
                     setTimeout(() => firework.classList.remove('show'), 1500);
                     document.querySelector('.snow-header h2 span').innerHTML = '🐴 马到成功！人生圆满 🎉';
                 } else {
                     document.querySelector('.snow-header h2 span').innerHTML = '🐴 马年看看你是什么马？';
                 }
-                
+
                 updateStickyProgress();
             }
 
-            function updateWisdomTip(percent) {
-                let tip = '';
-                if (percent < 10) tip = '🌱 才刚开始呢，像小马驹一样欢快地奔跑吧～ 马年假期，慢慢来，每一步都算数。';
-                else if (percent < 20) tip = '🍼 如果你的年龄还没到11岁，那已经超过好多同龄人啦！马年假期，好好享受身边的风景。';
-                else if (percent < 30) tip = '📚 人生进度20%+，正是读书好时节。马年假期，读一本闲书，喝一杯热茶。';
-                else if (percent < 40) tip = '💼 30%的人生进度，该奋斗时奋斗，该休息时休息。马年假期，给自己放个假吧。';
-                else if (percent < 50) tip = '💍 进度快到一半啦！像马儿一样，跑累了就停下来吃草。假期快乐～';
-                else if (percent < 60) tip = '👶 解锁了家庭副本的你，辛苦了。马年假期，陪陪最重要的人。';
-                else if (percent < 70) tip = '🚐 60%+，正是看世界的年纪。马年假期，说走就走？哪怕只是附近的公园。';
-                else if (percent < 80) tip = '🏠 70%+，家的意义越来越重。马年假期，好好陪爸妈吃顿饭。';
-                else if (percent < 90) tip = '🌳 80%+，人生过半，剩下的都是礼物。马年，愿你从容。';
-                else if (percent < 100) tip = '⭐ 90%+，快圆满了。马年，愿你剩下的每一步都踏在喜欢的路上。';
-                else tip = '🎉 100%！马到成功！这一局，你玩得很漂亮。';
-                wisdomTip.innerText = tip;
-            }
-
+            // 更新置顶进度条（修改为从wisdomTip获取动态文本）
             function updateStickyProgress() {
                 if (!stickyProgressModule) return;
-                const checkedCount = checkedState.filter(v => v).length;
-                const percent = flatTasks.length === 0 ? 0 : Math.round((checkedCount / flatTasks.length) * 100);
+                const total = checkedState.length;
+                const checked = checkedState.filter(v => v).length;
+                const percent = total === 0 ? 0 : Math.round((checked / total) * 100);
+                // 从主进度条的wisdomTip获取文本
+                const tipText = wisdomTip ? wisdomTip.innerText : '🌱 慢慢来，每一步都算数。';
+
                 stickyProgressModule.innerHTML = `
-                    <div class="progress-title"><span>🧧 马年已解锁人生关卡</span><span class="stats-number">${checkedCount}/${flatTasks.length}</span></div>
-                    <div class="progress-bar-bg"><div class="progress-fill" style="width: ${percent}%;"></div></div>
-                    <div class="progress-stats"><span>🐎 马年进度</span><span>${percent}%</span></div>
-                    <div class="wisdom-tip">${wisdomTip.innerText}</div>
+                    <div class="progress-title">
+                        <span>🧧 马年已解锁人生关卡</span>
+                        <span class="stats-number">${checked}/${total}</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-fill" style="width: ${percent}%;"></div>
+                    </div>
+                    <div class="progress-stats">
+                        <span>🐎 马年进度</span>
+                        <span>${percent}%</span>
+                    </div>
+                    <div class="wisdom-tip" style="margin-top: 8px; padding: 8px 12px;">
+                        ${tipText}
+                    </div>
                 `;
             }
 
-            function getChapterCheckedCount(chapterIdx) {
-                const range = chapterIndexRange[chapterIdx];
-                if (!range) return 0;
-                let count = 0;
-                for (let i = range.start; i <= range.end; i++) {
-                    if (checkedState[i]) count++;
-                }
-                return count;
+            // 置顶滚动监听
+            function setupStickyScroll() {
+                let ticking = false;
+                window.addEventListener('scroll', () => {
+                    if (!ticking) {
+                        window.requestAnimationFrame(() => {
+                            const rect = progressModule.getBoundingClientRect();
+                            stickyContainer.style.display = rect.top < 0 ? 'block' : 'none';
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                });
             }
 
-            function completeChapter(chapterIdx) {
-                const range = chapterIndexRange[chapterIdx];
-                for (let i = range.start; i <= range.end; i++) {
-                    checkedState[i] = true;
-                }
-                updateProgress();
-                renderChecklist();
-                saveData();
-            }
-
-            function editTask(chapterIdx, taskIdx) {
-                currentEditTask = { chapterIdx, taskIdx };
-                const taskItem = document.querySelector(`#task-${chapterIdx}-${taskIdx}`);
-                if (taskItem) {
-                    taskItem.classList.add('editing');
-                    const input = taskItem.querySelector('.task-edit-input');
-                    input.value = CHAPTERS[chapterIdx].tasks[taskIdx];
-                    input.focus();
-                }
-            }
-
-            function saveTaskEdit(chapterIdx, taskIdx, newText) {
-                if (newText.trim()) {
-                    CHAPTERS[chapterIdx].tasks[taskIdx] = newText.trim();
-                    rebuildFlatData();
-                }
-                currentEditTask = null;
-            }
-
-            function editChapterTitle(chapterIdx) {
-                currentEditChapterTitle = chapterIdx;
-                const chapterCard = document.querySelector(`.chapter-card[data-chapter-index="${chapterIdx}"]`);
-                if (chapterCard) {
-                    chapterCard.classList.add('editing-title');
-                    const input = chapterCard.querySelector('.chapter-title-edit');
-                    input.value = CHAPTERS[chapterIdx].name;
-                    input.focus();
-                }
-            }
-
-            function saveChapterTitleEdit(chapterIdx, newText) {
-                if (newText.trim()) {
-                    CHAPTERS[chapterIdx].name = newText.trim();
-                    rebuildFlatData();
-                }
-                currentEditChapterTitle = null;
-            }
-
-            function deleteTask(chapterIdx, taskIdx) {
-                if (confirm('确定要删除这个任务吗？')) {
-                    CHAPTERS[chapterIdx].tasks.splice(taskIdx, 1);
-                    rebuildFlatData();
-                }
-            }
-
-            function addTask(chapterIdx) {
-                const newTask = prompt('请输入新任务：');
-                if (newTask && newTask.trim()) {
-                    CHAPTERS[chapterIdx].tasks.push(newTask.trim());
-                    rebuildFlatData();
-                }
-            }
-
-            function deleteChapter(chapterIdx) {
-                pendingDeleteChapter = chapterIdx;
-                deleteModal.classList.add('show');
-            }
-
-            function addChapter() {
-                const newChapter = {
-                    icon: "📦",
-                    name: "新关卡",
-                    tasks: []
-                };
-                CHAPTERS.push(newChapter);
-                const newIdx = CHAPTERS.length - 1;
-                chapterCollapsed[newIdx] = true;
-                rebuildFlatData();
-                showToast('新关卡已添加');
-            }
-
-            function renderChecklist() {
+            // 生成二维码
+            function generateQRCode() {
+                const grid = document.getElementById('qrcode-grid');
+                if (!grid) return;
                 let html = '';
-                CHAPTERS.forEach((chapter, cIdx) => {
+                for (let i = 0; i < 49; i++) {
+                    const isBlack = Math.random() > 0.5;
+                    html += `<div class="qrcode-cell ${isBlack ? 'black' : ''}"></div>`;
+                }
+                grid.innerHTML = html;
+            }
+
+            // 渲染关卡
+            function renderChapters() {
+                let html = '';
+
+                chapters.forEach((chapter, chapterIdx) => {
+                    const isExpanded = expandedState[chapterIdx];
+                    const chapterChecked = getChapterCheckedCount(chapterIdx);
                     const chapterTotal = chapter.tasks.length;
-                    const chapterChecked = getChapterCheckedCount(cIdx);
-                    const isCollapsed = chapterCollapsed[cIdx] || false;
-                    
-                    html += `<div class="chapter-card" data-chapter-index="${cIdx}">`;
-                    
-                    html += `<div class="chapter-header" onclick="window.toggleChapter(${cIdx})">`;
+                    const isEditingTitle = (currentEditChapter === chapterIdx);
+
+                    html += `<div class="chapter-card ${isEditingTitle ? 'editing-title' : ''}" data-chapter="${chapterIdx}">`;
+
+                    // 头部
+                    html += `<div class="chapter-header" onclick="window.toggleChapter(${chapterIdx})">`;
                     html += `<div class="chapter-header-left">`;
                     html += `<span class="chapter-icon">${chapter.icon}</span>`;
-                    
-                    html += `<span class="chapter-title" ondblclick="event.stopPropagation(); window.editChapterTitle(${cIdx})">${chapter.name}</span>`;
-                    
-                    html += `<input type="text" class="chapter-title-edit" value="${chapter.name}" onblur="window.saveChapterTitleEdit(${cIdx}, this.value)" onkeypress="if(event.key==='Enter'){this.blur();}" onclick="event.stopPropagation();">`;
-                    
+                    html += `<span class="chapter-title" ondblclick="event.stopPropagation(); window.editChapterTitle(${chapterIdx})">${chapter.name}</span>`;
+                    html += `<input type="text" class="chapter-title-edit" value="${chapter.name}" onblur="window.saveChapterTitleEdit(${chapterIdx}, this.value)" onkeypress="if(event.key==='Enter'){this.blur();}">`;
                     html += `<span class="chapter-progress">${chapterChecked}/${chapterTotal}</span>`;
-                    html += `<span class="chapter-toggle ${isCollapsed ? 'collapsed' : 'expanded'}">${isCollapsed ? '▶' : '▼'}</span>`;
+                    html += `<span class="chapter-toggle ${isExpanded ? '' : 'collapsed'}">${isExpanded ? '▼' : '▶'}</span>`;
+                    html += `</div></div>`;
+
+                    // 操作按钮
+                    html += `<div class="chapter-actions ${isExpanded ? '' : 'collapsed'}">`;
+                    html += `<button class="chapter-btn" onclick="event.stopPropagation(); window.completeChapter(${chapterIdx})">✅ 一键完成</button>`;
+                    html += `<button class="chapter-btn" onclick="event.stopPropagation(); window.addTask(${chapterIdx})">➕ 新增任务</button>`;
+                    html += `<button class="chapter-btn delete" onclick="event.stopPropagation(); window.showDeleteModal(${chapterIdx})">🗑️ 删除关卡</button>`;
                     html += `</div>`;
-                    html += `</div>`;
-                    
-                    html += `<div class="chapter-actions ${isCollapsed ? 'collapsed' : ''}">`;
-                    html += `<button class="chapter-btn" onclick="event.stopPropagation(); window.completeChapter(${cIdx})" title="一键完成本关">✅ 一键完成</button>`;
-                    html += `<button class="chapter-btn" onclick="event.stopPropagation(); window.addTask(${cIdx})" title="新增任务">➕ 新增任务</button>`;
-                    html += `<button class="chapter-btn delete" onclick="event.stopPropagation(); window.deleteChapter(${cIdx})" title="删除本关">🗑️ 删除关卡</button>`;
-                    html += `</div>`;
-                    
-                    html += `<div class="task-list ${isCollapsed ? 'collapsed' : ''}" id="tasklist-${cIdx}">`;
-                    
-                    chapter.tasks.forEach((task, tIdx) => {
-                        const globalIdx = chapterIndexRange[cIdx]?.start + tIdx;
-                        const isChecked = globalIdx !== undefined && checkedState[globalIdx] ? 'checked' : '';
-                        
-                        html += `<div class="task-item" id="task-${cIdx}-${tIdx}">`;
-                        html += `<input type="checkbox" id="task_${cIdx}_${tIdx}" data-chapter="${cIdx}" data-task="${tIdx}" ${isChecked}>`;
-                        html += `<label for="task_${cIdx}_${tIdx}" class="task-label" ondblclick="window.editTask(${cIdx}, ${tIdx})">${task}</label>`;
-                        html += `<input type="text" class="task-edit-input" value="${task}" onblur="window.saveTaskEdit(${cIdx}, ${tIdx}, this.value)" onkeypress="if(event.key==='Enter'){this.blur();}">`;
-                        html += `<button class="task-delete" onclick="window.deleteTask(${cIdx}, ${tIdx})" title="删除任务">✕</button>`;
+
+                    // 任务列表
+                    html += `<div class="task-list ${isExpanded ? '' : 'collapsed'}">`;
+
+                    chapter.tasks.forEach((task, taskIdx) => {
+                        let globalIdx = 0;
+                        for (let i = 0; i < chapterIdx; i++) globalIdx += chapters[i].tasks.length;
+                        globalIdx += taskIdx;
+
+                        const isChecked = checkedState[globalIdx] ? 'checked' : '';
+                        const isEditingTask = (currentEditTask && currentEditTask.chapter === chapterIdx && currentEditTask.task === taskIdx);
+
+                        html += `<div class="task-item ${isEditingTask ? 'editing' : ''}" id="task-${chapterIdx}-${taskIdx}">`;
+                        html += `<input type="checkbox" id="task_${chapterIdx}_${taskIdx}" data-chapter="${chapterIdx}" data-task="${taskIdx}" data-global="${globalIdx}" ${isChecked}>`;
+                        html += `<label for="task_${chapterIdx}_${taskIdx}" class="task-label" ondblclick="window.editTask(${chapterIdx}, ${taskIdx})">${task}</label>`;
+                        html += `<input type="text" class="task-edit-input" value="${task}" onblur="window.saveTaskEdit(${chapterIdx}, ${taskIdx}, this.value)" onkeypress="if(event.key==='Enter'){this.blur();}">`;
+                        html += `<button class="task-delete" onclick="window.deleteTask(${chapterIdx}, ${taskIdx})">✕</button>`;
                         html += `</div>`;
                     });
-                    
-                    html += `</div>`;
-                    html += `</div>`;
-                });
-                
-                chapterContainer.innerHTML = html;
 
+                    html += `</div></div>`;
+                });
+
+                chapterList.innerHTML = html;
+
+                // 绑定复选框事件
                 document.querySelectorAll('.task-item input[type="checkbox"]').forEach(checkbox => {
-                    checkbox.addEventListener('change', function(e) {
+                    checkbox.addEventListener('change', function() {
+                        const globalIdx = parseInt(this.dataset.global);
+                        checkedState[globalIdx] = this.checked;
+                        updateProgress();
+                        saveToLocalStorage(); // 保存
+
                         const chapterIdx = parseInt(this.dataset.chapter);
-                        const taskIdx = parseInt(this.dataset.task);
-                        const globalIdx = chapterIndexRange[chapterIdx]?.start + taskIdx;
-                        if (globalIdx !== undefined) {
-                            checkedState[globalIdx] = this.checked;
-                            
-                            const chapterChecked = getChapterCheckedCount(chapterIdx);
-                            const chapterCard = document.querySelector(`.chapter-card[data-chapter-index="${chapterIdx}"] .chapter-progress`);
-                            if (chapterCard) {
-                                chapterCard.innerText = `${chapterChecked}/${CHAPTERS[chapterIdx].tasks.length}`;
-                            }
-                            
-                            updateProgress();
-                            saveData();
-                        }
+                        const checked = getChapterCheckedCount(chapterIdx);
+                        const total = chapters[chapterIdx].tasks.length;
+                        const progressSpan = document.querySelector(`.chapter-card[data-chapter="${chapterIdx}"] .chapter-progress`);
+                        if (progressSpan) progressSpan.textContent = `${checked}/${total}`;
                     });
                 });
             }
 
+            // ========== 编辑功能 ==========
             window.toggleChapter = function(chapterIdx) {
-                chapterCollapsed[chapterIdx] = !chapterCollapsed[chapterIdx];
-                renderChecklist();
-                saveData();
-            };
-
-            window.completeChapter = function(chapterIdx) {
-                completeChapter(chapterIdx);
-            };
-
-            window.editTask = function(chapterIdx, taskIdx) {
-                editTask(chapterIdx, taskIdx);
-            };
-
-            window.saveTaskEdit = function(chapterIdx, taskIdx, newText) {
-                saveTaskEdit(chapterIdx, taskIdx, newText);
+                expandedState[chapterIdx] = !expandedState[chapterIdx];
+                renderChapters();
+                saveToLocalStorage(); // 保存折叠状态
             };
 
             window.editChapterTitle = function(chapterIdx) {
-                editChapterTitle(chapterIdx);
+                currentEditChapter = chapterIdx;
+                renderChapters();
+                setTimeout(() => {
+                    document.querySelector(`.chapter-card[data-chapter="${chapterIdx}"] .chapter-title-edit`)?.focus();
+                }, 50);
             };
 
             window.saveChapterTitleEdit = function(chapterIdx, newText) {
-                saveChapterTitleEdit(chapterIdx, newText);
+                if (newText.trim()) chapters[chapterIdx].name = newText.trim();
+                currentEditChapter = null;
+                renderChapters();
+                saveToLocalStorage(); // 保存
+            };
+
+            window.editTask = function(chapterIdx, taskIdx) {
+                currentEditTask = { chapter: chapterIdx, task: taskIdx };
+                renderChapters();
+                setTimeout(() => {
+                    document.querySelector(`#task-${chapterIdx}-${taskIdx} .task-edit-input`)?.focus();
+                }, 50);
+            };
+
+            window.saveTaskEdit = function(chapterIdx, taskIdx, newText) {
+                if (newText.trim()) chapters[chapterIdx].tasks[taskIdx] = newText.trim();
+                currentEditTask = null;
+                renderChapters();
+                saveToLocalStorage(); // 保存
             };
 
             window.deleteTask = function(chapterIdx, taskIdx) {
-                deleteTask(chapterIdx, taskIdx);
+                if (confirm('确定删除这个任务吗？')) {
+                    chapters[chapterIdx].tasks.splice(taskIdx, 1);
+                    let newChecked = [];
+                    chapters.forEach(c => c.tasks.forEach(() => newChecked.push(false)));
+                    for (let i = 0; i < Math.min(checkedState.length, newChecked.length); i++) newChecked[i] = checkedState[i];
+                    checkedState = newChecked;
+                    renderChapters();
+                    updateProgress();
+                    saveToLocalStorage(); // 保存
+                }
+            };
+
+            window.completeChapter = function(chapterIdx) {
+                let start = 0;
+                for (let i = 0; i < chapterIdx; i++) start += chapters[i].tasks.length;
+                for (let i = 0; i < chapters[chapterIdx].tasks.length; i++) checkedState[start + i] = true;
+                renderChapters();
+                updateProgress();
+                saveToLocalStorage(); // 保存
             };
 
             window.addTask = function(chapterIdx) {
-                addTask(chapterIdx);
+                const task = prompt('请输入新任务：');
+                if (task?.trim()) {
+                    chapters[chapterIdx].tasks.push(task.trim());
+                    let newChecked = [];
+                    chapters.forEach(c => c.tasks.forEach(() => newChecked.push(false)));
+                    for (let i = 0; i < Math.min(checkedState.length, newChecked.length); i++) newChecked[i] = checkedState[i];
+                    checkedState = newChecked;
+                    renderChapters();
+                    updateProgress();
+                    saveToLocalStorage(); // 保存
+                }
             };
 
-            window.deleteChapter = function(chapterIdx) {
-                deleteChapter(chapterIdx);
+            window.showDeleteModal = function(chapterIdx) {
+                pendingDeleteChapter = chapterIdx;
+                deleteModal.classList.add('show');
             };
 
+            // ========== 导出/导入/重置 ==========
             function exportChecklist() {
-                const data = {
-                    chapters: CHAPTERS,
+                // 增强元信息：添加版本和导出时间
+                const data = { 
+                    chapters, 
+                    checked: checkedState,
                     version: '1.0',
                     exportTime: new Date().toISOString()
                 };
-                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `马年人生清单-${new Date().toISOString().slice(0,10)}.json`;
+                a.download = `马年清单-${new Date().toISOString().slice(0,10)}.json`;
                 a.click();
-                URL.revokeObjectURL(url);
                 showToast('导出成功');
             }
 
@@ -1527,16 +1528,20 @@
                 const input = document.createElement('input');
                 input.type = 'file';
                 input.accept = '.json';
-                input.onchange = function(e) {
+                input.onchange = (e) => {
                     const file = e.target.files[0];
                     const reader = new FileReader();
-                    reader.onload = function(e) {
+                    reader.onload = (e) => {
                         try {
                             const data = JSON.parse(e.target.result);
-                            if (data.chapters && Array.isArray(data.chapters)) {
-                                CHAPTERS = data.chapters;
-                                CHAPTERS.forEach((_, idx) => { chapterCollapsed[idx] = true; });
-                                rebuildFlatData();
+                            if (data.chapters) {
+                                chapters = data.chapters;
+                                checkedState = data.checked || [];
+                                // 重置折叠状态为默认折叠
+                                chapters.forEach((_, idx) => { expandedState[idx] = false; });
+                                renderChapters();
+                                updateProgress();
+                                saveToLocalStorage(); // 保存
                                 showToast('导入成功');
                             } else {
                                 alert('文件格式错误');
@@ -1550,53 +1555,77 @@
                 input.click();
             }
 
-            async function generateLongImage() {
-                showToast('🎠 生成中，马年好运加载中...', 2000);
-                
+            function resetChecklist() {
+                if (confirm('确定要重置所有清单吗？当前进度将丢失。')) {
+                    chapters = JSON.parse(JSON.stringify(DEFAULT_CHAPTERS));
+                    chapters.forEach((_, idx) => { expandedState[idx] = false; }); // 折叠
+                    checkedState = [];
+                    chapters.forEach(c => c.tasks.forEach(() => checkedState.push(false)));
+                    renderChapters();
+                    updateProgress();
+                    saveToLocalStorage(); // 保存
+                    showToast('已重置');
+                }
+            }
+
+            // ========== 马年结果 ==========
+            function startRolling() {
+                horseResult.style.display = 'block';
+                rollingArea.style.display = 'block';
+                resultDisplay.style.display = 'none';
+
+                const words = ['🐴 小马驹', '🏇 千里马', '⚔️ 战马', '👑 领头马', '🧓 老马识途'];
+                let count = 0;
+                if (rollingTimer) clearInterval(rollingTimer);
+                rollingTimer = setInterval(() => {
+                    rollingArea.innerText = words[count % words.length];
+                    count++;
+                }, 100);
+
+                setTimeout(() => {
+                    clearInterval(rollingTimer);
+                    rollingTimer = null;
+                    rollingArea.style.display = 'none';
+
+                    const total = checkedState.length;
+                    const checked = checkedState.filter(v => v).length;
+                    const percent = total === 0 ? 0 : Math.round((checked / total) * 100);
+                    const level = getHorseLevel(percent);
+
+                    // 按等级随机运势
+                    const levelFortunes = FORTUNES.filter(f => f.level === (percent < 20 ? 1 : percent < 40 ? 2 : percent < 60 ? 3 : percent < 80 ? 4 : 5));
+                    const fortune = levelFortunes[Math.floor(Math.random() * levelFortunes.length)].text;
+
+                    resultHorseName.textContent = level.name;
+                    resultHorseDesc.textContent = level.desc;
+                    resultFortune.textContent = fortune;
+
+                    resultDisplay.style.display = 'block';
+                }, 1500);
+            }
+
+            // ========== 截图功能 ==========
+            async function takeScreenshot() {
+                showToast('生成中...');
                 try {
-                    const questionnaire = document.getElementById('questionnaire-section');
-                    
-                    const container = document.createElement('div');
-                    container.style.backgroundColor = '#fff8f5';
-                    container.style.padding = '0';
-                    container.style.width = questionnaire.offsetWidth + 'px';
-                    
-                    const questionnaireClone = questionnaire.cloneNode(true);
-                    
-                    questionnaireClone.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                        checkbox.disabled = true;
-                    });
-                    questionnaireClone.querySelectorAll('.chapter-header').forEach(header => {
-                        header.onclick = null;
-                    });
-                    
-                    container.appendChild(questionnaireClone);
-                    container.style.position = 'absolute';
-                    container.style.left = '-9999px';
-                    container.style.top = '0';
-                    document.body.appendChild(container);
-                    
-                    const canvas = await html2canvas(container, {
+                    const canvas = await html2canvas(document.getElementById('app'), {
                         scale: 2,
                         backgroundColor: '#fff8f5',
+                        logging: false,
                         allowTaint: false,
-                        useCORS: true,
-                        logging: false
+                        useCORS: true
                     });
-                    
-                    document.body.removeChild(container);
-                    
+
                     const imgData = canvas.toDataURL('image/png');
-                    
-                    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-                    const saveTip = isMobile ? '👆 长按图片，选择「保存图片」到相册' : '🖱️ 右键点击图片，选择「图片另存为」';
-                    
+                    const isMobile = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+                    const saveTip = isMobile ? '👆 长按图片保存到相册' : '🖱️ 右键图片另存为';
+
                     const overlay = document.createElement('div');
                     overlay.className = 'image-modal-overlay';
                     overlay.innerHTML = `
                         <div class="image-modal-container">
                             <div class="image-modal-body">
-                                <img src="${imgData}" alt="马年人生进度" id="modal-image">
+                                <img src="${imgData}" alt="马年人生进度">
                             </div>
                             <div class="image-modal-footer">
                                 <div class="save-tip">${saveTip}</div>
@@ -1604,127 +1633,76 @@
                             </div>
                         </div>
                     `;
-                    
+
                     document.body.appendChild(overlay);
                     document.body.style.overflow = 'hidden';
-                    
+
                     const closeModal = () => {
-                        if (overlay.parentNode) {
-                            overlay.parentNode.removeChild(overlay);
-                        }
+                        overlay.remove();
                         document.body.style.overflow = '';
                     };
-                    
+
                     overlay.addEventListener('click', (e) => {
                         if (e.target === overlay) closeModal();
                     });
-                    
                     overlay.querySelector('.close-modal-btn').addEventListener('click', closeModal);
-                    
+
                 } catch (error) {
-                    console.error('截图失败:', error);
-                    showToast('生成失败，请稍后重试', 2000);
+                    showToast('截图失败: ' + error.message);
+                    console.error(error);
                 }
             }
 
-            function generateQRCode() {
-                const gridContainer = document.getElementById('qrcode-grid');
-                if (!gridContainer) return;
-                
-                let gridHtml = '';
-                for (let i = 0; i < 49; i++) {
-                    const isBlack = Math.random() > 0.5;
-                    gridHtml += `<div class="qrcode-cell ${isBlack ? 'black' : ''}"></div>`;
-                }
-                gridContainer.innerHTML = gridHtml;
-            }
-
-            function showToast(msg, duration = 1500) {
+            function showToast(msg) {
                 toast.textContent = msg;
                 toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), duration);
+                setTimeout(() => toast.classList.remove('show'), 2000);
             }
 
-            function setupStickyScroll() {
-                let ticking = false;
-                
-                window.addEventListener('scroll', () => {
-                    if (!ticking) {
-                        window.requestAnimationFrame(() => {
-                            const progressModuleRect = progressModule.getBoundingClientRect();
-                            if (progressModuleRect.top < 0) {
-                                stickyContainer.style.display = 'block';
-                            } else {
-                                stickyContainer.style.display = 'none';
-                            }
-                            ticking = false;
-                        });
-                        ticking = true;
-                    }
-                });
-            }
-
-            function getRandomFortuneByLevel(level) {
-                const levelFortunes = FORTUNES.filter(f => f.level === level);
-                const randomIndex = Math.floor(Math.random() * levelFortunes.length);
-                return levelFortunes[randomIndex].text;
-            }
-
-            function startRolling() {
-                if (rollingTimer) clearInterval(rollingTimer);
-                
-                revealBtn.style.display = 'none';
-                horseResult.style.display = 'block';
-                rollingArea.style.display = 'block';
-                resultDisplay.style.display = 'none';
-
-                const rollWords = ['🐴 小马驹', '🏇 千里马', '⚔️ 战马', '👑 领头马', '🧓 老马识途', '🎲 占卜中', '✨ 马年运势', '🍀 等等'];
-                let count = 0;
-                rollingTimer = setInterval(() => {
-                    rollingArea.innerText = rollWords[count % rollWords.length];
-                    count++;
-                }, 80);
-
-                setTimeout(() => {
-                    clearInterval(rollingTimer);
-                    rollingTimer = null;
-                    rollingArea.style.display = 'none';
-                    
-                    const percent = flatTasks.length === 0 ? 0 : Math.round((checkedState.filter(v=>v).length / flatTasks.length) * 100);
-                    const levelInfo = getHorseLevel(percent);
-                    const fortune = getRandomFortuneByLevel(levelInfo.level);
-                    
-                    resultHorseName.innerText = levelInfo.name;
-                    resultHorseDesc.innerText = levelInfo.desc;
-                    resultFortune.innerText = fortune;
-                    
-                    resultDisplay.style.display = 'block';
-                }, 1500);
-            }
+            // ========== 事件绑定 ==========
+            exportBtn.addEventListener('click', exportChecklist);
+            importBtn.addEventListener('click', importChecklist);
+            resetBtn.addEventListener('click', resetChecklist);
+            addChapterBtn.addEventListener('click', () => {
+                const newChapter = { icon: "📦", name: "新关卡", tasks: [] };
+                chapters.push(newChapter);
+                expandedState[chapters.length - 1] = false; // 默认折叠
+                let newChecked = [];
+                chapters.forEach(c => c.tasks.forEach(() => newChecked.push(false)));
+                for (let i = 0; i < Math.min(checkedState.length, newChecked.length); i++) newChecked[i] = checkedState[i];
+                checkedState = newChecked;
+                renderChapters();
+                updateProgress();
+                saveToLocalStorage(); // 保存
+                showToast('新关卡已添加');
+            });
 
             revealBtn.addEventListener('click', startRolling);
             retestBtn.addEventListener('click', startRolling);
             shareBtn.addEventListener('click', () => {
-                showToast('长按上方图片即可分享（截图已包含结果）', 2000);
+                showToast('点击截图按钮生成图片后分享');
             });
 
-            generateBtn.addEventListener('click', generateLongImage);
-            exportBtn.addEventListener('click', exportChecklist);
-            importBtn.addEventListener('click', importChecklist);
-            resetBtn.addEventListener('click', resetChecklist);
-            addChapterBtn.addEventListener('click', addChapter);
-            
+            generateBtn.addEventListener('click', takeScreenshot);
+
             cancelDelete.addEventListener('click', () => {
                 deleteModal.classList.remove('show');
                 pendingDeleteChapter = null;
             });
-            
+
             confirmDelete.addEventListener('click', () => {
                 if (pendingDeleteChapter !== null) {
-                    CHAPTERS.splice(pendingDeleteChapter, 1);
-                    rebuildFlatData();
+                    chapters.splice(pendingDeleteChapter, 1);
+                    let newChecked = [];
+                    chapters.forEach(c => c.tasks.forEach(() => newChecked.push(false)));
+                    checkedState = newChecked;
+                    expandedState = {};
+                    chapters.forEach((_, idx) => { expandedState[idx] = false; }); // 折叠
+                    renderChapters();
+                    updateProgress();
                     deleteModal.classList.remove('show');
                     pendingDeleteChapter = null;
+                    saveToLocalStorage(); // 保存
                     showToast('关卡已删除');
                 }
             });
@@ -1737,11 +1715,11 @@
             });
 
             // 初始化
-            loadData();
+            initData();
+            renderChapters();
+            updateProgress();
             generateQRCode();
             setupStickyScroll();
-            
-            setTimeout(() => updateStickyProgress(), 100);
         })();
     </script>
 </body>
