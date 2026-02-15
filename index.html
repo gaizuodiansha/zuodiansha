@@ -2,323 +2,1747 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>最终版 · 马年清单截图</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>该做啥 · 马年人生进度滚雪球 · 最终稳定版</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, 'PingFang SC', sans-serif; }
-        body { background: #fae6e0; display: flex; justify-content: center; padding: 20px; }
-        #app { max-width: 600px; width: 100%; background: #fff8f5; border-radius: 32px; padding: 24px; border: 1px solid #ffd9cf; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        body {
+            background-color: #fae6e0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+            min-width: 320px;
+        }
+        #app {
+            max-width: 600px;
+            width: 100%;
+            background-color: #fff8f5;
+            border-radius: 32px;
+            box-shadow: 0 12px 30px rgba(199,69,43,0.15);
+            padding: 28px 24px;
+            position: relative;
+            border: 1px solid #ffd9cf;
+        }
         
-        /* 进度条 */
-        .progress-title { display: flex; justify-content: space-between; color: #C7452B; font-weight: 600; margin-bottom: 12px; font-size: 16px; }
-        .progress-bar-bg { background: #ffe1d6; height: 14px; border-radius: 20px; overflow: hidden; margin-bottom: 10px; }
-        .progress-fill { width: 0%; height: 14px; background: #C7452B; transition: width 0.3s; }
-        .progress-stats { display: flex; justify-content: space-between; font-size: 16px; color: #8B4B3E; }
-        .stats-number { font-weight: 700; color: #C7452B; }
+        /* 置顶克隆进度条容器 */
+        #sticky-progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: none;
+            background-color: #fff8f5;
+            box-shadow: 0 4px 12px rgba(199,69,43,0.2);
+            padding: 10px 0;
+            border-bottom: 2px solid #C7452B;
+        }
+        #sticky-progress-container .sticky-content {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* 烟花彩蛋 */
+        .firework {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            display: none;
+        }
+        .firework.show {
+            display: block;
+            animation: firework 1.5s ease-out;
+        }
+        @keyframes firework {
+            0% { background: radial-gradient(circle, rgba(255,215,0,0) 0%, rgba(255,215,0,0) 100%); }
+            30% { background: radial-gradient(circle, rgba(255,215,0,0.8) 0%, rgba(199,69,43,0) 70%); }
+            100% { background: radial-gradient(circle, rgba(255,215,0,0) 0%, rgba(199,69,43,0) 100%); }
+        }
 
-        /* 关卡卡片 */
-        .chapter-card { background: #fff8f5; border: 1px solid #ffd9cf; border-radius: 24px; padding: 18px; margin-bottom: 20px; }
-        .chapter-header { display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; }
-        .chapter-title { font-size: 18px; font-weight: 700; color: #8B4B3E; flex: 1; word-break: break-word; }
-        .chapter-progress { background: #ffe1d6; padding: 5px 14px; border-radius: 30px; font-size: 14px; color: #C7452B; font-weight: 600; white-space: nowrap; }
-        .chapter-toggle { font-size: 20px; color: #C7452B; width: 24px; text-align: center; }
-        .task-list { padding-left: 40px; margin-top: 10px; }
-        .task-list.collapsed { display: none; }
-        .task-item { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px dashed #ffd9cf; }
-        .task-item input[type="checkbox"] { margin-right: 14px; width: 18px; height: 18px; accent-color: #C7452B; }
-        .task-item label { font-size: 16px; color: #5C3D35; line-height: 1.5; cursor: pointer; }
-
-        /* 按钮和脚注 */
-        .action-button { background: linear-gradient(145deg, #C7452B, #E86B4F); border: none; border-radius: 60px; padding: 16px; width: 100%; color: white; font-size: 20px; font-weight: 700; cursor: pointer; margin: 20px 0 10px; border: 1px solid #FFD700; }
-        .footer-note { text-align: center; color: #E86B4F; font-size: 15px; margin-top: 8px; }
-
-        /* 浮层样式 */
+        /* 删除确认弹窗 */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+        .modal.show {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            padding: 28px;
+            border-radius: 28px;
+            max-width: 360px;
+            text-align: center;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+            justify-content: center;
+        }
+        .modal-btn {
+            padding: 14px 28px;
+            border-radius: 40px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .modal-btn.confirm {
+            background: #C7452B;
+            color: white;
+        }
+        .modal-btn.cancel {
+            background: #e0e0e0;
+        }
+        
+        /* 图片浮层样式 */
         .image-modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 20000; display: flex;
-            justify-content: center; align-items: center; backdrop-filter: blur(4px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 20000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
         }
         .image-modal-container {
-            background: #fff8f5; border-radius: 32px; max-width: 90%; max-height: 90%;
-            display: flex; flex-direction: column; overflow: hidden; border: 2px solid #FFD700;
+            background: #fff8f5;
+            border-radius: 32px;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border: 2px solid #FFD700;
         }
-        .image-modal-body { padding: 20px; text-align: center; }
-        .image-modal-body img { max-width: 100%; max-height: 60vh; border-radius: 24px; border: 2px solid #C7452B; }
-        .image-modal-footer { padding: 0 20px 20px; text-align: center; }
+        .image-modal-body {
+            padding: 20px 20px 10px 20px;
+            text-align: center;
+        }
+        .image-modal-body img {
+            max-width: 100%;
+            max-height: 60vh;
+            border-radius: 24px;
+            border: 2px solid #C7452B;
+            box-shadow: 0 8px 16px rgba(199,69,43,0.3);
+        }
+        .image-modal-footer {
+            padding: 10px 20px 20px 20px;
+            text-align: center;
+        }
         .save-tip {
-            background: linear-gradient(145deg, #C7452B, #E86B4F); color: white;
-            padding: 12px 20px; border-radius: 60px; font-size: 18px; font-weight: 600;
-            border: 1px solid #FFD700; margin-bottom: 16px;
+            background: linear-gradient(145deg, #C7452B, #E86B4F);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 60px;
+            font-size: 18px;
+            font-weight: 600;
+            border: 1px solid #FFD700;
+            box-shadow: 0 4px 12px rgba(199,69,43,0.4);
+            margin-bottom: 16px;
         }
         .close-modal-btn {
-            background: #fff0e8; border: 2px solid #C7452B; color: #C7452B;
-            padding: 10px 30px; border-radius: 40px; font-size: 18px; font-weight: 700;
-            cursor: pointer; display: inline-block;
+            background: #fff0e8;
+            border: 2px solid #C7452B;
+            color: #C7452B;
+            padding: 12px 30px;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+        .close-modal-btn:hover {
+            background: #C7452B;
+            color: white;
+        }
+        
+        /* 全局工具栏 */
+        .global-toolbar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            justify-content: space-between;
+        }
+        .global-btn {
+            background: #fff0e8;
+            border: 1px solid #C7452B;
+            color: #C7452B;
+            padding: 12px 12px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            flex: 1;
+            justify-content: center;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .global-btn:hover {
+            background: #C7452B;
+            color: white;
+        }
+        .global-btn.reset:hover {
+            background: #8B4B3E;
+            border-color: #8B4B3E;
+        }
+        
+        /* 马年新春横幅 */
+        .new-year-banner {
+            background: linear-gradient(90deg, #C7452B, #E86B4F);
+            color: white;
+            text-align: center;
+            padding: 14px;
+            border-radius: 60px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(199,69,43,0.4);
         }
 
-        /* 轻提示 */
+        /* 顶部祝福语 */
+        .top-blessing {
+            background: #fff0e8;
+            color: #C7452B;
+            text-align: center;
+            padding: 14px;
+            border-radius: 40px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            border: 2px solid #FFD700;
+            box-shadow: 0 4px 8px rgba(199,69,43,0.1);
+        }
+        .top-blessing span {
+            font-size: 24px;
+            margin: 0 6px;
+        }
+        
+        .snow-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background: linear-gradient(145deg, #fff0e8, #fff8f5);
+            padding: 12px 0;
+        }
+        .snow-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #C7452B;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .snow-badge {
+            background-color: #C7452B;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(199,69,43,0.3);
+        }
+        
+        /* 进度条模块 */
+        #progress-module {
+            background: linear-gradient(145deg, #fff0e8, #fff8f5);
+            border-radius: 24px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(199,69,43,0.1);
+            border: 1px solid #ffe1d6;
+        }
+        .progress-title {
+            display: flex;
+            justify-content: space-between;
+            color: #C7452B;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        .progress-title .stats-number {
+            white-space: nowrap;
+            letter-spacing: normal;
+            word-spacing: normal;
+        }
+        .progress-bar-bg {
+            background-color: #ffe1d6;
+            height: 14px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .progress-fill {
+            width: 0%;
+            height: 14px;
+            background-color: #C7452B;
+            border-radius: 20px;
+            transition: width 0.3s ease;
+        }
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            color: #8B4B3E;
+        }
+        .stats-number {
+            font-weight: 700;
+            color: #C7452B;
+        }
+
+        /* 温馨提示区域 */
+        .wisdom-tip {
+            background: #fff0e8;
+            border-radius: 40px;
+            padding: 14px 18px;
+            margin-top: 16px;
+            font-size: 15px;
+            color: #8B4B3E;
+            border-left: 6px solid #C7452B;
+            line-height: 1.5;
+            box-shadow: 0 2px 8px rgba(199,69,43,0.1);
+            transition: opacity 0.3s;
+        }
+        .wisdom-tip i {
+            color: #C7452B;
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        /* 广告条 */
+        .ad-banner {
+            background: #fff0e8;
+            color: #8B4B3E;
+            text-align: center;
+            padding: 12px;
+            border-radius: 40px;
+            margin-top: 16px;
+            font-size: 15px;
+            font-weight: 500;
+            border: 1px dashed #C7452B;
+            box-shadow: none;
+        }
+        
+        /* 等级预览 */
+        #level-preview {
+            margin-top: 16px;
+            background: #fff0e8;
+            border-radius: 40px;
+            padding: 12px 18px;
+            font-size: 15px;
+            color: #8B4B3E;
+            border-left: 6px solid #C7452B;
+        }
+        
+        .chapter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+        
+        .chapter-card {
+            background: #fff8f5;
+            border-radius: 24px;
+            padding: 18px;
+            border: 1px solid #ffd9cf;
+            box-shadow: 0 2px 8px rgba(199,69,43,0.05);
+        }
+        
+        .chapter-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .chapter-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+        .chapter-icon {
+            font-size: 28px;
+        }
+        .chapter-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #8B4B3E;
+            flex: 1;
+            cursor: text;
+            word-break: break-word;
+        }
+        .chapter-title-edit {
+            flex: 1;
+            padding: 8px 14px;
+            border: 2px solid #C7452B;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 700;
+            outline: none;
+            background: white;
+            display: none;
+        }
+        .chapter-card.editing-title .chapter-title {
+            display: none;
+        }
+        .chapter-card.editing-title .chapter-title-edit {
+            display: block;
+        }
+        .chapter-progress {
+            font-size: 16px;
+            color: #C7452B;
+            font-weight: 600;
+            background: #ffe1d6;
+            padding: 5px 14px;
+            border-radius: 30px;
+            margin-right: 8px;
+            white-space: nowrap;
+        }
+        .chapter-toggle {
+            font-size: 24px;
+            color: #C7452B;
+            width: 30px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .chapter-toggle.expanded {
+            transform: rotate(0deg);
+        }
+        .chapter-toggle.collapsed {
+            transform: rotate(-90deg);
+        }
+        
+        .chapter-actions {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0 10px 40px;
+            flex-wrap: wrap;
+        }
+        .chapter-actions.collapsed {
+            display: none;
+        }
+        .chapter-btn {
+            background: #fff0e8;
+            border: 1px solid #C7452B;
+            color: #C7452B;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .chapter-btn:hover {
+            background: #C7452B;
+            color: white;
+        }
+        .chapter-btn.delete:hover {
+            background: #c00;
+            border-color: #c00;
+            color: white;
+        }
+        
+        .task-list {
+            margin-top: 5px;
+            padding-left: 40px;
+        }
+        .task-list.collapsed {
+            display: none;
+        }
+        
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0 10px 8px;
+            border-bottom: 1px dashed #ffd9cf;
+            font-size: 16px;
+            color: #5C3D35;
+            position: relative;
+        }
+        .task-item:hover {
+            background: #fff0e8;
+        }
+        .task-item input[type="checkbox"] {
+            margin-right: 14px;
+            width: 20px;
+            height: 20px;
+            accent-color: #C7452B;
+            border-radius: 5px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .task-label {
+            flex: 1;
+            line-height: 1.5;
+            cursor: pointer;
+            word-break: break-word;
+            padding-right: 8px;
+        }
+        .task-edit-input {
+            flex: 1;
+            padding: 8px 14px;
+            border: 2px solid #C7452B;
+            border-radius: 30px;
+            font-size: 16px;
+            outline: none;
+            background: white;
+            display: none;
+        }
+        .task-item.editing .task-label {
+            display: none;
+        }
+        .task-item.editing .task-edit-input {
+            display: block;
+        }
+        .task-delete {
+            opacity: 0;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #C7452B;
+            cursor: pointer;
+            padding: 8px 12px;
+            transition: opacity 0.2s;
+            flex-shrink: 0;
+        }
+        .task-item:hover .task-delete {
+            opacity: 1;
+        }
+        .task-delete:hover {
+            color: #c00;
+            transform: scale(1.1);
+        }
+        
+        .qrcode-footer {
+            background: linear-gradient(145deg, #fff0e8, #fff8f5);
+            border-radius: 24px;
+            padding: 24px;
+            margin: 24px 0 10px;
+            text-align: center;
+            border: 2px dashed #C7452B;
+        }
+        .qrcode-placeholder {
+            width: 140px;
+            height: 140px;
+            background: #C7452B;
+            margin: 0 auto 16px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #FFD700;
+        }
+        .qrcode-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            width: 120px;
+            height: 120px;
+            margin: 10px auto;
+        }
+        .qrcode-cell {
+            background-color: #FFD700;
+            border-radius: 2px;
+        }
+        .qrcode-cell.black {
+            background-color: #C7452B;
+        }
+        .qrcode-footer p {
+            color: #C7452B;
+            font-weight: 600;
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+        .qrcode-footer .sub {
+            color: #E86B4F;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .blessing-message {
+            background: #fff0e8;
+            color: #C7452B;
+            text-align: center;
+            padding: 16px;
+            border-radius: 40px;
+            margin: 10px 0 20px 0;
+            font-size: 18px;
+            font-weight: 600;
+            border: 1px solid #C7452B;
+            box-shadow: 0 4px 12px rgba(199,69,43,0.1);
+        }
+        .blessing-message span {
+            font-size: 24px;
+            margin-right: 8px;
+        }
+        
+        .action-button {
+            background: linear-gradient(145deg, #C7452B, #E86B4F);
+            border: none;
+            border-radius: 60px;
+            padding: 20px 0;
+            width: 100%;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 24px 0 10px;
+            box-shadow: 0 8px 16px rgba(199,69,43,0.4);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #FFD700;
+            white-space: normal;
+            word-break: break-word;
+            line-height: 1.3;
+        }
+        .action-button:active {
+            transform: scale(0.97);
+            background: #C7452B;
+        }
+        .footer-note {
+            text-align: center;
+            color: #E86B4F;
+            font-size: 15px;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .copyright-footer {
+            text-align: center;
+            font-size: 12px;
+            color: #c0a59c;
+            margin-top: 24px;
+            padding-top: 12px;
+            border-top: 1px dashed #ffd9cf;
+        }
+        
         .toast {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: rgba(199,69,43,0.95); color: white; padding: 12px 24px;
-            border-radius: 60px; font-size: 16px; z-index: 999; display: none;
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(199,69,43,0.95);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 60px;
+            font-size: 16px;
+            z-index: 999;
+            display: none;
             border: 1px solid #FFD700;
         }
+        .toast.show {
+            display: block;
+        }
+
+        /* 马年结果区域 */
+        #horse-result {
+            background: #fff8f5;
+            border-radius: 24px;
+            padding: 24px;
+            margin: 20px 0;
+            border: 2px solid #C7452B;
+            box-shadow: 0 4px 12px rgba(199,69,43,0.2);
+        }
+        #rolling-area {
+            text-align: center;
+            margin-bottom: 20px;
+            min-height: 60px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #C7452B;
+        }
+        #result-display {
+            text-align: center;
+        }
+        .fortune-box {
+            background: #fff0e8;
+            border-radius: 40px;
+            padding: 16px;
+            margin: 16px 0;
+            font-size: 16px;
+            color: #5C3D35;
+            line-height: 1.6;
+        }
+        .result-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #C7452B;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        /* ========== 自适应媒体查询 ========== */
+        @media screen and (max-width: 480px) {
+            body { padding: 12px; }
+            #app { padding: 20px 16px; }
+            #sticky-progress-container .sticky-content { padding: 0 16px; }
+            .snow-header h2 { font-size: 24px; }
+            .snow-badge { font-size: 16px; padding: 8px 14px; }
+            .global-btn { font-size: 13px; padding: 10px 8px; white-space: normal; word-break: keep-all; }
+            .chapter-title { font-size: 16px; }
+            .chapter-icon { font-size: 24px; }
+            .chapter-progress { font-size: 14px; padding: 4px 10px; }
+            .chapter-toggle { font-size: 20px; }
+            .chapter-actions { flex-wrap: wrap; gap: 8px; }
+            .chapter-btn { font-size: 13px; padding: 8px 12px; white-space: normal; }
+            .task-label { font-size: 14px; }
+            .action-button { font-size: 20px; padding: 16px 0; }
+            .top-blessing { font-size: 16px; padding: 10px; }
+            .new-year-banner { font-size: 18px; padding: 10px; }
+            .wisdom-tip, #level-preview, .ad-banner { font-size: 14px; padding: 12px; }
+            .qrcode-footer p { font-size: 18px; }
+            .qrcode-footer .sub { font-size: 14px; }
+            .blessing-message { font-size: 16px; padding: 12px; }
+            .footer-note { font-size: 13px; }
+            #horse-result { padding: 18px; }
+            .result-title { font-size: 18px; }
+            .fortune-box { font-size: 14px; }
+            .task-delete { opacity: 0.6; }
+            .task-item:hover .task-delete { opacity: 1; }
+        }
+
+        @media screen and (max-width: 360px) {
+            body { padding: 8px; }
+            #app { padding: 16px 12px; }
+            #sticky-progress-container .sticky-content { padding: 0 12px; }
+            .snow-header h2 { font-size: 20px; }
+            .snow-badge { font-size: 14px; padding: 6px 10px; }
+            .global-btn { font-size: 12px; padding: 8px 4px; }
+            .chapter-title { font-size: 14px; }
+            .chapter-icon { font-size: 22px; }
+            .chapter-progress { font-size: 12px; padding: 3px 8px; }
+            .chapter-toggle { font-size: 18px; }
+            .chapter-btn { font-size: 12px; padding: 6px 10px; }
+            .task-label { font-size: 13px; }
+            .action-button { font-size: 18px; padding: 14px 0; }
+            .top-blessing { font-size: 14px; }
+            .new-year-banner { font-size: 16px; }
+            .qrcode-placeholder { width: 120px; height: 120px; }
+        }
+
+        @media screen and (min-width: 768px) {
+            #app { max-width: 800px; padding: 32px 40px; }
+            #sticky-progress-container .sticky-content { max-width: 800px; padding: 0 40px; }
+            .snow-header h2 { font-size: 32px; }
+            .global-btn { font-size: 16px; padding: 14px 16px; }
+            .chapter-title { font-size: 20px; }
+            .chapter-icon { font-size: 30px; }
+            .task-label { font-size: 18px; }
+            .action-button { font-size: 28px; padding: 22px 0; }
+            .top-blessing { font-size: 20px; }
+            .new-year-banner { font-size: 24px; }
+            .wisdom-tip, #level-preview { font-size: 16px; }
+            .footer-note { font-size: 16px; }
+        }
+
+        @media (hover: none) {
+            .task-delete { opacity: 0.5; }
+            .task-item:hover .task-delete { opacity: 0.5; }
+        }
     </style>
-    <!-- 主用 CDN + 备用动态加载，确保 html2canvas 稳定加载 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.6.0/html2canvas.min.js"></script>
-    <script>window.html2canvas || document.write('<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.6.0/dist/html2canvas.min.js"><\/script>');</script>
+    <!-- 主用 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- 备用 CDN（加载失败时自动使用）-->
+    <script>window.html2canvas || document.write('<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.4/dist/html2canvas.min.js"><\/script>');</script>
 </head>
 <body>
-<div id="app">
-    <!-- 进度条模块 -->
-    <div id="progress-module" style="margin-bottom:20px;">
-        <div class="progress-title">
-            <span>🧧 已解锁关卡</span>
-            <span class="stats-number" id="progressCount">0/0</span>
+    <!-- 烟花彩蛋 -->
+    <div id="firework" class="firework"></div>
+    
+    <!-- 删除确认弹窗 -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <p style="margin-bottom: 16px; font-size: 20px;">确定要删除这个关卡吗？</p>
+            <p style="color: #C7452B; margin-bottom: 20px;">所有任务将永久消失</p>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" id="cancelDelete">取消</button>
+                <button class="modal-btn confirm" id="confirmDelete">删除</button>
+            </div>
         </div>
-        <div class="progress-bar-bg"><div id="progressFill" class="progress-fill"></div></div>
-        <div class="progress-stats"><span>🐎 进度</span><span id="percentDisplay">0%</span></div>
     </div>
 
-    <!-- 动态渲染清单（默认展开） -->
-    <div id="chapterContainer"></div>
+    <!-- 置顶进度条容器 -->
+    <div id="sticky-progress-container">
+        <div class="sticky-content">
+            <div id="sticky-progress-module"></div>
+        </div>
+    </div>
 
-    <!-- 生成长图按钮（截图时会被移除） -->
-    <button id="generateBtn" class="action-button">🧧 生成测试长图</button>
-    <div class="footer-note"><span id="selectedCountSmall">0</span>/<span id="totalCountSmall">0</span> 已完成</div>
-</div>
+    <div id="app">
+        <!-- 全局工具栏 -->
+        <div class="global-toolbar">
+            <button class="global-btn" id="exportBtn">📤 导出清单</button>
+            <button class="global-btn" id="importBtn">📥 导入清单</button>
+            <button class="global-btn reset" id="resetBtn">🔄 重置清单</button>
+        </div>
 
-<!-- 轻提示 -->
-<div id="toast" class="toast"></div>
+        <!-- 问卷区域 - 所有要截图的内容都在这里 -->
+        <div id="questionnaire-section">
+            <!-- 马年新春横幅 -->
+            <div class="new-year-banner">
+                🐴 马年大吉 · 一马当先 · 万事胜意 🧧
+            </div>
 
-<script>
-(function() {
-    // ---------- 精简数据：两个关卡，便于测试 ----------
-    const DEFAULT_CHAPTERS = [
-        { icon:"🍼", name:"第一关：新手村", tasks:["出生","第一次哭","学会走路","第一次叫妈"] },
-        { icon:"📚", name:"第二关：校园", tasks:["上小学","第一次考试","毕业"] }
-    ];
+            <!-- 顶部祝福语 -->
+            <div class="top-blessing">
+                <span>🎊</span> 祝我的好朋友马年大吉，新年快乐！ <span>🎊</span>
+            </div>
 
-    let CHAPTERS = JSON.parse(JSON.stringify(DEFAULT_CHAPTERS));
-    let checkedState = [];
-    let flatTasks = [];
-    let chapterIndexRange = [];
-    let chapterCollapsed = {};          // 默认展开（false）
+            <div class="snow-header">
+                <h2><span>🐴 马年看看你是什么马？</span></h2>
+                <span class="snow-badge" id="percentBadge">0%</span>
+            </div>
+            
+            <!-- 进度条模块 -->
+            <div id="progress-module">
+                <div class="progress-title">
+                    <span>🧧 马年已解锁人生关卡</span>
+                    <span class="stats-number" id="progressCount">0/0</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div id="progressFill" class="progress-fill" style="width: 0%;"></div>
+                </div>
+                <div class="progress-stats">
+                    <span>🐎 马年进度</span>
+                    <span><span id="percentDisplay">0</span>%</span>
+                </div>
 
-    // DOM 元素
-    const chapterContainer = document.getElementById('chapterContainer');
-    const progressCountSpan = document.getElementById('progressCount');
-    const selectedCountSmall = document.getElementById('selectedCountSmall');
-    const totalCountSmall = document.getElementById('totalCountSmall');
-    const progressFill = document.getElementById('progressFill');
-    const percentDisplay = document.getElementById('percentDisplay');
-    const generateBtn = document.getElementById('generateBtn');
-    const toast = document.getElementById('toast');
+                <!-- 动态温馨提示语 -->
+                <div id="wisdomTip" class="wisdom-tip">
+                    🌱 慢慢来，每一步都算数。
+                </div>
 
-    // 初始化折叠状态（全展开）
-    CHAPTERS.forEach((_, idx) => { chapterCollapsed[idx] = false; });
+                <!-- 淡化广告条 -->
+                <div class="ad-banner">
+                    🔍 关注「该做啥」生成你的同款人生进度
+                </div>
 
-    function rebuildFlatData() {
-        flatTasks = [];
-        chapterIndexRange = [];
-        CHAPTERS.forEach((ch, idx) => {
-            const start = flatTasks.length;
-            flatTasks = flatTasks.concat(ch.tasks);
-            chapterIndexRange.push({ start, end: flatTasks.length - 1 });
-        });
-        // 重置勾选状态（保留原有勾选，但初次都未勾选）
-        const newChecked = new Array(flatTasks.length).fill(false);
-        if (checkedState.length) {
-            for (let i=0; i<Math.min(checkedState.length, flatTasks.length); i++) newChecked[i] = checkedState[i];
-        }
-        checkedState = newChecked;
-        updateProgress();
-        render();
-    }
+                <!-- 进度条下方实时等级预览 -->
+                <div id="level-preview">
+                    当前进度：<span id="current-percent">0</span>% → 你即将解锁：【<span id="current-level-name">小马驹</span> · <span id="current-level-desc">初生牛犊不怕虎（虽然你是马）</span>】
+                </div>
+            </div>
 
-    function updateProgress() {
-        const checked = checkedState.filter(v=>v).length;
-        const total = flatTasks.length;
-        const percent = total ? Math.round(checked/total*100) : 0;
-        if (progressCountSpan) progressCountSpan.innerText = checked + '/' + total;
-        selectedCountSmall.innerText = checked;
-        totalCountSmall.innerText = total;
-        progressFill.style.width = percent + '%';
-        percentDisplay.innerText = percent + '%';
-    }
+            <!-- 动态渲染清单关卡（默认折叠） -->
+            <div id="chapterContainer" class="chapter-list"></div>
+            
+            <!-- 底部增加关卡按钮 -->
+            <button id="addChapterBtn" class="add-chapter-btn" style="background: #fff0e8; border: 2px dashed #C7452B; color: #C7452B; padding: 18px; border-radius: 50px; width: 100%; font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; margin: 20px 0 10px;">
+                ➕ 增加新关卡
+            </button>
+            
+            <!-- 查看我是什么马按钮 -->
+            <button id="reveal-horse-btn" class="action-button" style="margin: 20px 0; background: linear-gradient(145deg, #C7452B, #E86B4F);">
+                🎲 点击查看我是什么马
+            </button>
 
-    function getChapterChecked(chapterIdx) {
-        const r = chapterIndexRange[chapterIdx];
-        if (!r) return 0;
-        let cnt = 0;
-        for (let i=r.start; i<=r.end; i++) if (checkedState[i]) cnt++;
-        return cnt;
-    }
-
-    function render() {
-        let html = '';
-        CHAPTERS.forEach((ch, cIdx) => {
-            const total = ch.tasks.length;
-            const checked = getChapterChecked(cIdx);
-            const collapsed = chapterCollapsed[cIdx];
-            html += `<div class="chapter-card">`;
-            html += `<div class="chapter-header" onclick="window.toggleChapter(${cIdx})">`;
-            html += `<span class="chapter-title">${ch.name}</span>`;
-            html += `<span class="chapter-progress">${checked}/${total}</span>`;
-            html += `<span class="chapter-toggle">${collapsed ? '▶' : '▼'}</span>`;
-            html += `</div>`;
-            html += `<div class="task-list ${collapsed ? 'collapsed' : ''}">`;
-            ch.tasks.forEach((task, tIdx) => {
-                const globalIdx = chapterIndexRange[cIdx]?.start + tIdx;
-                const chk = (globalIdx !== undefined && checkedState[globalIdx]) ? 'checked' : '';
-                html += `<div class="task-item">`;
-                html += `<input type="checkbox" data-chapter="${cIdx}" data-task="${tIdx}" ${chk}>`;
-                html += `<label>${task}</label>`;
-                html += `</div>`;
-            });
-            html += `</div></div>`;
-        });
-        chapterContainer.innerHTML = html;
-
-        // 绑定 checkbox 事件
-        document.querySelectorAll('.task-item input[type="checkbox"]').forEach(cb => {
-            cb.addEventListener('change', function(e) {
-                const cIdx = parseInt(this.dataset.chapter);
-                const tIdx = parseInt(this.dataset.task);
-                const globalIdx = chapterIndexRange[cIdx]?.start + tIdx;
-                if (globalIdx !== undefined) {
-                    checkedState[globalIdx] = this.checked;
-                    updateProgress();
-                }
-            });
-        });
-    }
-
-    window.toggleChapter = function(idx) {
-        chapterCollapsed[idx] = !chapterCollapsed[idx];
-        render();
-    };
-
-    // ---------- 长图生成函数（GPT优化版，整合超长保护） ----------
-    async function generateLongImage() {
-        // 如果库未定义，等待一小段时间（备用加载可能异步）
-        if (typeof html2canvas === 'undefined') {
-            await new Promise(resolve => setTimeout(resolve, 500));
-            if (typeof html2canvas === 'undefined') {
-                showToast('截图库加载失败，请刷新重试', 2000);
-                return;
-            }
-        }
-
-        // 检测设备
-        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-        let imgUrl = null;
-
-        try {
-            // 整个卡片容器（包含进度条和清单）
-            const questionnaire = document.getElementById('app');
-
-            // 创建克隆容器
-            const container = document.createElement('div');
-            container.style.backgroundColor = '#fff8f5';
-            container.style.padding = '0';
-            container.style.width = questionnaire.offsetWidth + 'px';
-
-            const clone = questionnaire.cloneNode(true);
-
-            // 让勾选状态在 clone 里更稳定（保留 checked 属性）
-            clone.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                cb.disabled = true;
-                if (cb.checked) cb.setAttribute('checked', 'checked');
-            });
-
-            // 去掉“生成测试长图”按钮，避免截图里出现
-            const btn = clone.querySelector('#generateBtn');
-            if (btn) btn.remove();
-
-            container.appendChild(clone);
-            container.style.position = 'absolute';
-            container.style.left = '-9999px';
-            container.style.top = '0';
-            document.body.appendChild(container);
-
-            // 强制重绘
-            container.offsetHeight;
-            await new Promise(requestAnimationFrame);
-
-            // 简单超长保护（iOS 上限制更严）
-            const maxHeight = isIOS ? 8000 : 20000;
-            if (container.scrollHeight > maxHeight) {
-                showToast('内容过长，请折叠部分章节后重试', 2000);
-                document.body.removeChild(container);
-                return;
-            }
-
-            // iOS 使用 scale = 1，其他设备 1.5
-            const scale = isIOS ? 1 : 1.5;
-
-            const canvas = await html2canvas(container, {
-                scale,
-                backgroundColor: '#fff8f5',
-                logging: false,
-                useCORS: true
-            });
-
-            document.body.removeChild(container);
-
-            // 使用 blob 避免 base64 长字符串
-            const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1));
-            if (!blob) throw new Error('canvas.toBlob failed');
-
-            imgUrl = URL.createObjectURL(blob);
-
-            const saveTip = isMobile ? '长按图片保存' : '右键另存为';
-
-            const overlay = document.createElement('div');
-            overlay.className = 'image-modal-overlay';
-            overlay.innerHTML = `
-                <div class="image-modal-container">
-                    <div class="image-modal-body"><img src="${imgUrl}"></div>
-                    <div class="image-modal-footer">
-                        <div class="save-tip">${saveTip}</div>
-                        <div class="close-modal-btn">关 闭</div>
+            <!-- 马年人格结果区域（初始隐藏） -->
+            <div id="horse-result" style="display: none;">
+                <div id="rolling-area" style="display: none;">🎲 占卜中...</div>
+                <div id="result-display">
+                    <div class="result-title">🐴 测试我是什么马？</div>
+                    <div style="text-align: center; margin-bottom: 16px;">
+                        <span style="font-size: 48px;">🐴</span>
+                    </div>
+                    <div style="font-size: 22px; font-weight: 700; color: #C7452B; text-align: center; margin-bottom: 8px;">
+                        <span id="result-horse-name">小马驹</span> · <span id="result-horse-desc">初生牛犊不怕虎</span>
+                    </div>
+                    <div class="fortune-box">
+                        <span id="result-fortune">今年你会遇到一个“伯乐”，但他可能只是问你路怎么走——没关系，你指的路他自己走错了。</span>
+                    </div>
+                    <div style="display: flex; gap: 12px; justify-content: center;">
+                        <button id="retest-btn" class="global-btn" style="flex: 1; background: #fff0e8;">🔄 再测一次</button>
+                        <button id="share-result-btn" class="global-btn" style="flex: 1; background: #fff0e8;">📤 分享结果</button>
                     </div>
                 </div>
-            `;
+            </div>
 
-            document.body.appendChild(overlay);
-            document.body.style.overflow = 'hidden';
+            <!-- 二维码区域（带祝福语） -->
+            <div id="qrcode-footer" class="qrcode-footer">
+                <div class="blessing-message">
+                    <span>🐴</span> 祝我的好朋友马年大吉，万事顺遂 <span>🧧</span>
+                </div>
 
-            function cleanup() {
-                overlay.remove();
-                document.body.style.overflow = '';
-                if (imgUrl) URL.revokeObjectURL(imgUrl);
-                imgUrl = null;
+                <div class="qrcode-placeholder">
+                    <div class="qrcode-grid" id="qrcode-grid"></div>
+                </div>
+                <p>🐴 关注「该做啥」· 马到成功</p>
+                <p class="sub">生成你的马年人生进度 · 分享好运</p>
+            </div>
+        </div>
+
+        <!-- 生成长图按钮 -->
+        <button id="generateBtn" class="action-button">
+            🧧 生成马年长图 · 朋友圈接好运 🐴
+        </button>
+        <div class="footer-note">
+            <span id="selectedCountSmall">0</span>/<span id="totalCountSmall">0</span> 项已完成 · 马年一马当先
+        </div>
+
+        <!-- 版权脚注 -->
+        <div class="copyright-footer">
+            © 2025 该做啥 · 版本 1.0
+        </div>
+    </div>
+
+    <!-- 轻提示浮层 -->
+    <div id="toast" class="toast"></div>
+    
+    <!-- 结果占位（隐藏） -->
+    <div id="result" style="display: none;"></div>
+
+    <script>
+        (function() {
+            // ==================== 运势库（100条） ====================
+            const FORTUNES = [
+                { level: 1, text: "今年你会遇到一个“伯乐”，但他可能只是问你路怎么走——没关系，你指的路他自己走错了。" },
+                { level: 1, text: "财运不错，可能会捡到钱——面值不超过5块，但捡钱那一刻的快乐值100块。" },
+                { level: 1, text: "感情运势：暗恋的人可能会多看你一眼，就一眼——够你回味三个月。" },
+                { level: 1, text: "事业运势：领导终于记得你名字了，虽然偶尔叫错，但叫错的那个名字也挺好听。" },
+                { level: 1, text: "健康运势：腿脚利索，适合多跑几步——但别跑太快，容易摔出表情包。" },
+                { level: 1, text: "今年最大的收获：学会了自己换灯泡，从此成为家里的光明使者。" },
+                { level: 1, text: "贵人运：你妈，她永远觉得你饿。" },
+                { level: 1, text: "小马驹，今年你的任务就是：多吃草，少挨踢，偶尔撒个欢。" },
+                { level: 1, text: "桃花运：有，但可能是烂桃花——比如楼下卖煎饼的大爷夸你帅，那也是桃花。" },
+                { level: 1, text: "今年你会解锁一个新技能：熬夜不秃头，年轻就是资本。" },
+                { level: 1, text: "事业上会有小惊喜，比如甲方突然说“方案不用改了”，你激动得以为在做梦。" },
+                { level: 1, text: "财运方面，可能会收到一笔意外之财——比如微信红包里的0.01元，那也是爱。" },
+                { level: 1, text: "感情上，你会遇到一个让你心跳加速的人——因为他在你身后拍你肩膀。" },
+                { level: 1, text: "健康方面，今年你会发现自己居然能跑5公里，然后歇了三天。" },
+                { level: 1, text: "今年最值得期待的事：第一次被叫“老师”，虽然只是教同事怎么用复印机。" },
+                { level: 1, text: "小马驹，今年你会明白：人生就像草原，跑着跑着就开阔了。" },
+                { level: 1, text: "桃花运：可能会有人给你介绍对象，但介绍人自己也没见过对方。" },
+                { level: 1, text: "财运：适合存钱，虽然存的不多，但看着数字增长就开心。" },
+                { level: 1, text: "今年你会有一个新爱好：研究星座，然后发现自己的星座今天运势不错。" },
+                { level: 1, text: "小马驹，马年祝你：摔倒了也能笑着爬起来，因为摔跤的样子很搞笑。" },
+
+                { level: 2, text: "今年会遇到真正的伯乐，但伯乐可能也没啥钱——他负责发现你，你负责继续穷。" },
+                { level: 2, text: "事业运势：跳槽的最佳时机在秋天，草最肥的时候，记得多要点草。" },
+                { level: 2, text: "财运：收入会涨，但涨不过房租——房租涨得比你快，这是定律。" },
+                { level: 2, text: "感情运势：会遇到一个“懂你”的人，懂你为啥穷，懂你为啥加班。" },
+                { level: 2, text: "贵人运：前同事，他跳槽后会把你也挖过去。" },
+                { level: 2, text: "今年最大的挑战：在奔跑和躺平之间反复横跳，最后发现躺着跑最累。" },
+                { level: 2, text: "桃花运：有，但对方可能也有房贷——你们可以一起还，压力减半。" },
+                { level: 2, text: "健康运势：颈椎需要关注，少低头看手机，多抬头看老板在不在。" },
+                { level: 2, text: "今年你会明白：千里马也要吃草，不能光喝西北风——西北风不管饱。" },
+                { level: 2, text: "事业上会有小惊喜，但惊喜往往伴随着加班——惊喜是项目成了，惊吓是连夜上线。" },
+                { level: 2, text: "财运方面，可能会中一次小奖——比如公司年会抽到阳光普照奖（纸巾一盒）。" },
+                { level: 2, text: "感情运势：单身的有机会脱单，但脱单后发现还是单身爽。" },
+                { level: 2, text: "今年你会解锁一个新身份：朋友圈美食博主，虽然做的菜只有自己敢吃。" },
+                { level: 2, text: "健康运势：开始关注养生，保温杯里泡枸杞，虽然不知道有没有用。" },
+                { level: 2, text: "今年最大的成就是：在父母眼中终于“稳定”了，虽然你自己觉得并不稳。" },
+                { level: 2, text: "千里马，今年要学会拒绝，不然会累成骡子。" },
+                { level: 2, text: "财运方面，可能会有一笔额外收入，但来得快去得也快——比如退税。" },
+                { level: 2, text: "感情上，会有一次浪漫的约会，地点可能是你家楼下的沙县小吃。" },
+                { level: 2, text: "今年你会突然发现：原来自己还挺能扛，扛完这波还有下波。" },
+                { level: 2, text: "千里马，马年祝你：跑得快，吃得饱，伯乐早点到。" },
+
+                { level: 3, text: "今年你要打三场硬仗：工作、家庭、自己——打赢两场就算赢。" },
+                { level: 3, text: "财运：稳定，但稳定地不够花——这是成年人的常态，别慌。" },
+                { level: 3, text: "感情运势：老夫老妻模式，默契度+1，激情-1，但默契比激情更长久。" },
+                { level: 3, text: "事业运势：你会成为某个项目的核心，核心=啥都得干，干完还得背锅。" },
+                { level: 3, text: "贵人运：你的队友，他们帮你分担了50%的工作，以及100%的吐槽。" },
+                { level: 3, text: "健康运势：腰需要关注，毕竟负重前行——建议买个好的腰靠。" },
+                { level: 3, text: "今年最大的成就是：在崩溃边缘稳住了，然后发现崩溃也挺累的。" },
+                { level: 3, text: "桃花运：已婚人士请忽略此条，单身人士请继续忽略此条（因为没空恋爱）。" },
+                { level: 3, text: "战马，今年要学会说“不”，不然真的会累死——说“不”之后发现，原来天不会塌。" },
+                { level: 3, text: "财务上会有大额支出，可能是房子、车子、或者孩子——但都是甜蜜的负担。" },
+                { level: 3, text: "今年你会突然意识到：原来父母开始依赖你了，这感觉既温暖又压力山大。" },
+                { level: 3, text: "事业上会有一次晋升机会，但晋升后会发现工作量翻倍——晋升快乐！" },
+                { level: 3, text: "财运方面，可能会收到一笔还款，对方拖了三年终于还了，值得庆祝。" },
+                { level: 3, text: "感情运势：和伴侣一起吐槽生活，是最好的增进感情方式。" },
+                { level: 3, text: "健康运势：开始重视体检，虽然体检前瑟瑟发抖，体检后长舒一口气。" },
+                { level: 3, text: "今年你会有一个新发现：原来周末睡懒觉是最奢侈的幸福。" },
+                { level: 3, text: "战马，今年你的关键词是“稳住”——稳住就能赢，赢了就能喘口气。" },
+                { level: 3, text: "财运方面，可能会有一笔投资回报，虽然不多，但够吃顿好的。" },
+                { level: 3, text: "今年你会被叫“前辈”，虽然你觉得昨天自己还是新人。" },
+                { level: 3, text: "战马，马年祝你：冲锋时有人递水，撤退时有草吃，躺平时没人吵。" },
+
+                { level: 4, text: "今年你会带领团队完成一个大项目，然后发现不如自己干——但团队会请你吃饭。" },
+                { level: 4, text: "财运：收入不错，但支出更大——孩子补习班、父母体检、房贷车贷，齐了。" },
+                { level: 4, text: "感情运势：家人需要你多陪伴，别只顾着往前冲——他们想你了。" },
+                { level: 4, text: "事业运势：可能被猎头挖，但挖的坑可能比现在深——先看看坑里有没有草。" },
+                { level: 4, text: "贵人运：你的下属，他们扛起了所有，你只需要请他们喝奶茶。" },
+                { level: 4, text: "健康运势：血压需要关注，少生气——生气的时候默念“亲生的、亲选的、亲带的”。" },
+                { level: 4, text: "今年最大的感悟：领头马也不是那么好当的——但当了就不能怂。" },
+                { level: 4, text: "桃花运：都领头马了还想啥桃花——家里那朵花需要你浇灌。" },
+                { level: 4, text: "今年你会面临一个选择：继续跑，还是换条路——选哪条都对，因为你有经验。" },
+                { level: 4, text: "财运方面，投资需谨慎，别信熟人——熟人也可能亏。" },
+                { level: 4, text: "今年你会突然发现：孩子长大了，会顶嘴了——这是成长的标志，忍住别打。" },
+                { level: 4, text: "事业上会有一次高光时刻，比如上台领奖，然后发现奖杯挺沉。" },
+                { level: 4, text: "感情运势：和伴侣之间会有一次深度聊天，聊完后发现还是不太懂对方——但更亲近了。" },
+                { level: 4, text: "健康运势：开始锻炼身体，因为发现爬三楼开始喘了。" },
+                { level: 4, text: "今年你会被年轻人叫“老师”，虽然你觉得只是比他们多踩了几个坑。" },
+                { level: 4, text: "领头马，今年你的关键词是“平衡”——平衡工作和家庭，平衡付出和回报。" },
+                { level: 4, text: "财运方面，可能会有一笔意外之财，比如退税或者奖金——够全家吃顿大餐。" },
+                { level: 4, text: "今年你会有一个新身份：家长会代表，虽然你也不知道凭什么选你。" },
+                { level: 4, text: "领头马，马年祝你：带着团队跑得快，回家还能赶得上热饭。" },
+                { level: 4, text: "今年最大的幸福：听到家人说“你辛苦了”，然后你说“不辛苦，命苦”——大家都笑了。" },
+
+                { level: 5, text: "今年你会发现，年轻时纠结的事，现在都不叫事——叫故事。" },
+                { level: 5, text: "财运：稳定，开始享受存钱的乐趣，看着数字增长比花钱还开心。" },
+                { level: 5, text: "感情运势：老伴儿是最好的贵人，陪你走了这么远，还得继续走。" },
+                { level: 5, text: "事业运势：经验值拉满，但体力值下降——所以多用嘴，少用腿。" },
+                { level: 5, text: "贵人运：年轻人，他们需要你带，你也需要他们让你觉得自己还年轻。" },
+                { level: 5, text: "健康运势：腿脚需要保养，少跑多走，走不动就坐会儿，没人催你。" },
+                { level: 5, text: "今年最大的幸福：看着年轻人踩你踩过的坑，然后微微一笑。" },
+                { level: 5, text: "桃花运：夕阳红，也挺美——广场舞认识的新朋友，聊得来就行。" },
+                { level: 5, text: "老马，今年适合整理过往，写写回忆录——哪怕只写给自己看。" },
+                { level: 5, text: "财运方面，可能会有意外之财，比如子女给的零花钱，虽然你不需要。" },
+                { level: 5, text: "今年你会突然发现：时间过得真快，一眨眼孩子都这么大了——然后孩子说你又感慨了。" },
+                { level: 5, text: "事业上，你可能已经不需要证明什么了，做自己喜欢的事最重要。" },
+                { level: 5, text: "感情运势：和老伴儿一起回忆年轻时的傻事，笑出眼泪。" },
+                { level: 5, text: "健康运势：体检指标有高有低，但心态平和最重要——高就高点，低就低点。" },
+                { level: 5, text: "今年你会被晚辈请教各种问题，虽然你也不知道答案，但凭经验能蒙对一半。" },
+                { level: 5, text: "老马，今年你的关键词是“享受”——享受生活，享受天伦之乐，享受慢下来的日子。" },
+                { level: 5, text: "财运方面，适合给自己花点钱，买个一直想买但舍不得买的东西。" },
+                { level: 5, text: "今年你会有一个新爱好：养花、养鱼、或者养孙子——都挺费精力，但乐在其中。" },
+                { level: 5, text: "老马识途，不用再赶路。马年愿你：走得慢一点，看得清一点，笑得真一点。" },
+                { level: 5, text: "今年你会突然觉得——这辈子，值了。不是因为没有遗憾，而是因为遗憾也是风景。" }
+            ];
+
+            // 默认清单数据（8个关卡）
+            const DEFAULT_CHAPTERS = [
+                {
+                    icon: "🍼",
+                    name: "第一关：新手村任务",
+                    tasks: [
+                        "出生 —— 成功登录地球服务器",
+                        "第一次哭 —— 首场公开演出",
+                        "学会走路 —— 此后一生都在追逐",
+                        "第一次叫妈 —— 解锁人类语音包",
+                        "换牙 —— 牙齿交给枕头，换来一枚硬币"
+                    ]
+                },
+                {
+                    icon: "📚",
+                    name: "第二关：校园副本",
+                    tasks: [
+                        "上小学 —— 背上了比梦想还沉的书包",
+                        "第一次考试 —— 理解临时抱佛脚是一门学科",
+                        "毕业 —— 拿到社会入场券",
+                        "同学录 —— 写过永远做朋友",
+                        "暗恋 —— 毕业也没说出口"
+                    ]
+                },
+                {
+                    icon: "💼",
+                    name: "第三关：社会生存模式",
+                    tasks: [
+                        "第一份工作 —— 改变世界和改PPT是同一件事",
+                        "第一次发工资 —— 给爸妈发红包/请朋友吃饭",
+                        "第一次跳槽 —— 学会写个人发展规划",
+                        "第一次被裁/裸辞 —— 成就：终于睡够了",
+                        "租房 —— 搬过3次家以上",
+                        "第一次独立处理大事 —— 办证件/修水管/深夜急诊"
+                    ]
+                },
+                {
+                    icon: "💍",
+                    name: "第四关：人类绑定任务",
+                    tasks: [
+                        "第一次心动 —— 那年夏天，以为这个人就是全部",
+                        "第一次失恋 —— 世界没塌，只是变灰了",
+                        "遇到想共度余生的人 —— 这次是真的",
+                        "结婚 —— 在领个证和办场戏之间完成博弈",
+                        "度蜜月（哪怕只是去了隔壁市）"
+                    ]
+                },
+                {
+                    icon: "👶",
+                    name: "第五关：人类复制任务",
+                    tasks: [
+                        "备孕 —— 认真得像在准备高考",
+                        "第一次当父母 —— 理论满分，实战手忙脚乱",
+                        "第一次换尿布 —— 被滋了一脸，还笑了",
+                        "第一次家长会 —— 坐进小椅子，理解了当年的老师",
+                        "辅导作业 —— 血压正常，尚在安全区"
+                    ]
+                },
+                {
+                    icon: "🚐",
+                    name: "第六关：生存彩蛋",
+                    tasks: [
+                        "说走就走的旅行 —— 哪怕只是去了隔壁省",
+                        "通宵 —— 不是玩，是真的睡不着",
+                        "一个人吃火锅/看电影/去医院",
+                        "啥也不顾的旅行 —— 关工作群、不查攻略、不为发朋友圈",
+                        "学会拒绝 —— 婉拒过三次推销电话也算"
+                    ]
+                },
+                {
+                    icon: "🏠",
+                    name: "第七关：家庭史诗任务",
+                    tasks: [
+                        "第一次给父母买东西 —— 他们嘴上说乱花钱，朋友圈发了三天",
+                        "第一次带父母体检 —— 攥着报告单不敢打开",
+                        "装修 —— 和装修公司吵架经验值+100",
+                        "第一次处理家庭大事 —— 发现自己不再是等安排的小孩",
+                        "成为父母的骄傲 —— 他们觉得已经是，你还觉得不够"
+                    ]
+                },
+                {
+                    icon: "🌳",
+                    name: "第八关：终局彩蛋",
+                    tasks: [
+                        "立遗嘱 —— 其实是手机备忘录：把我微信收藏夹删掉",
+                        "完成一个年轻时吹过的牛 —— 哪怕只有半个",
+                        "和所有在意的人和好/告别 —— 不急，但记在心里",
+                        "浏览器历史记录已清空 —— 每个人都有自己的秘密花园",
+                        "自动续费已全部取消 —— 人生最后一次关掉会员",
+                        "对自己说：这一局，玩得还不错"
+                    ]
+                }
+            ];
+
+            // 全局变量
+            let CHAPTERS = [];
+            let checkedState = [];
+            let flatTasks = [];
+            let chapterIndexRange = [];
+            let chapterCollapsed = {};
+            let currentEditChapter = null;
+            let currentEditTask = null;
+            let currentEditChapterTitle = null;
+            let rollingTimer = null;
+            let pendingDeleteChapter = null;
+
+            // DOM 元素
+            const chapterContainer = document.getElementById('chapterContainer');
+            const selectedCountSmall = document.getElementById('selectedCountSmall');
+            const totalCountSmall = document.getElementById('totalCountSmall');
+            const progressFill = document.getElementById('progressFill');
+            const percentDisplay = document.getElementById('percentDisplay');
+            const percentBadge = document.getElementById('percentBadge');
+            const generateBtn = document.getElementById('generateBtn');
+            const toast = document.getElementById('toast');
+            const firework = document.getElementById('firework');
+            const exportBtn = document.getElementById('exportBtn');
+            const importBtn = document.getElementById('importBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const addChapterBtn = document.getElementById('addChapterBtn');
+            const deleteModal = document.getElementById('deleteModal');
+            const cancelDelete = document.getElementById('cancelDelete');
+            const confirmDelete = document.getElementById('confirmDelete');
+            const wisdomTip = document.getElementById('wisdomTip');
+            
+            const revealBtn = document.getElementById('reveal-horse-btn');
+            const horseResult = document.getElementById('horse-result');
+            const rollingArea = document.getElementById('rolling-area');
+            const resultDisplay = document.getElementById('result-display');
+            const resultHorseName = document.getElementById('result-horse-name');
+            const resultHorseDesc = document.getElementById('result-horse-desc');
+            const resultFortune = document.getElementById('result-fortune');
+            const retestBtn = document.getElementById('retest-btn');
+            const shareBtn = document.getElementById('share-result-btn');
+            
+            const currentPercentSpan = document.getElementById('current-percent');
+            const currentLevelName = document.getElementById('current-level-name');
+            const currentLevelDesc = document.getElementById('current-level-desc');
+
+            const progressModule = document.getElementById('progress-module');
+            const stickyContainer = document.getElementById('sticky-progress-container');
+            const stickyProgressModule = document.getElementById('sticky-progress-module');
+            const progressCountSpan = document.getElementById('progressCount');
+
+            // 加载数据
+            function loadData() {
+                const saved = localStorage.getItem('maYearChecklist');
+                if (saved) {
+                    try {
+                        CHAPTERS = JSON.parse(saved);
+                    } catch (e) {
+                        CHAPTERS = JSON.parse(JSON.stringify(DEFAULT_CHAPTERS));
+                    }
+                } else {
+                    CHAPTERS = JSON.parse(JSON.stringify(DEFAULT_CHAPTERS));
+                }
+                CHAPTERS.forEach((_, idx) => { chapterCollapsed[idx] = true; });
+                rebuildFlatData();
             }
 
-            overlay.addEventListener('click', e => { if (e.target === overlay) cleanup(); });
-            overlay.querySelector('.close-modal-btn').addEventListener('click', cleanup);
+            function resetChecklist() {
+                if (confirm('确定要重置所有清单吗？当前进度将丢失。')) {
+                    localStorage.removeItem('maYearChecklist');
+                    CHAPTERS = JSON.parse(JSON.stringify(DEFAULT_CHAPTERS));
+                    chapterCollapsed = {};
+                    CHAPTERS.forEach((_, idx) => { chapterCollapsed[idx] = true; });
+                    rebuildFlatData();
+                    showToast('已重置为默认清单');
+                }
+            }
 
-        } catch (e) {
-            console.error('截图失败:', e);
-            if (imgUrl) URL.revokeObjectURL(imgUrl);
-            showToast('截图失败', 2000);
-        }
-    }
+            function saveData() {
+                localStorage.setItem('maYearChecklist', JSON.stringify(CHAPTERS));
+            }
 
-    function showToast(msg, duration) {
-        toast.textContent = msg;
-        toast.style.display = 'block';
-        setTimeout(() => toast.style.display = 'none', duration);
-    }
+            function rebuildFlatData() {
+                flatTasks = [];
+                chapterIndexRange = [];
+                CHAPTERS.forEach((chapter, idx) => {
+                    const start = flatTasks.length;
+                    flatTasks = flatTasks.concat(chapter.tasks);
+                    chapterIndexRange.push({ start, end: flatTasks.length - 1 });
+                });
+                
+                const newCheckedState = new Array(flatTasks.length).fill(false);
+                if (checkedState.length > 0) {
+                    for (let i = 0; i < Math.min(checkedState.length, flatTasks.length); i++) {
+                        newCheckedState[i] = checkedState[i];
+                    }
+                }
+                checkedState = newCheckedState;
+                
+                updateProgress();
+                renderChecklist();
+                saveData();
+            }
 
-    generateBtn.addEventListener('click', generateLongImage);
+            function getHorseLevel(percent) {
+                if (percent < 20) return { level: 1, name: "小马驹", desc: "初生牛犊不怕虎（虽然你是马）" };
+                if (percent < 40) return { level: 2, name: "千里马", desc: "伯乐在路上了" };
+                if (percent < 60) return { level: 3, name: "战马", desc: "正在冲锋陷阵" };
+                if (percent < 80) return { level: 4, name: "领头马", desc: "后面跟着一串" };
+                return { level: 5, name: "老马识途", desc: "这辈子没白跑" };
+            }
 
-    // 初始化
-    rebuildFlatData();
-})();
-</script>
+            function updateProgress() {
+                const checkedCount = checkedState.filter(v => v).length;
+                const percent = flatTasks.length === 0 ? 0 : Math.round((checkedCount / flatTasks.length) * 100);
+                
+                if (progressCountSpan) {
+                    progressCountSpan.innerText = checkedCount + '/' + flatTasks.length;
+                }
+                
+                selectedCountSmall.innerText = checkedCount;
+                totalCountSmall.innerText = flatTasks.length;
+                
+                progressFill.style.width = percent + '%';
+                percentDisplay.innerText = percent;
+                percentBadge.innerText = percent + '%';
+                
+                updateWisdomTip(percent);
+
+                const levelInfo = getHorseLevel(percent);
+                currentPercentSpan.innerText = percent;
+                currentLevelName.innerText = levelInfo.name;
+                currentLevelDesc.innerText = levelInfo.desc;
+
+                if (percent === 100 && flatTasks.length > 0) {
+                    firework.classList.add('show');
+                    setTimeout(() => firework.classList.remove('show'), 1500);
+                    document.querySelector('.snow-header h2 span').innerHTML = '🐴 马到成功！人生圆满 🎉';
+                } else {
+                    document.querySelector('.snow-header h2 span').innerHTML = '🐴 马年看看你是什么马？';
+                }
+                
+                updateStickyProgress();
+            }
+
+            function updateWisdomTip(percent) {
+                let tip = '';
+                if (percent < 10) tip = '🌱 才刚开始呢，像小马驹一样欢快地奔跑吧～ 马年假期，慢慢来，每一步都算数。';
+                else if (percent < 20) tip = '🍼 如果你的年龄还没到11岁，那已经超过好多同龄人啦！马年假期，好好享受身边的风景。';
+                else if (percent < 30) tip = '📚 人生进度20%+，正是读书好时节。马年假期，读一本闲书，喝一杯热茶。';
+                else if (percent < 40) tip = '💼 30%的人生进度，该奋斗时奋斗，该休息时休息。马年假期，给自己放个假吧。';
+                else if (percent < 50) tip = '💍 进度快到一半啦！像马儿一样，跑累了就停下来吃草。假期快乐～';
+                else if (percent < 60) tip = '👶 解锁了家庭副本的你，辛苦了。马年假期，陪陪最重要的人。';
+                else if (percent < 70) tip = '🚐 60%+，正是看世界的年纪。马年假期，说走就走？哪怕只是附近的公园。';
+                else if (percent < 80) tip = '🏠 70%+，家的意义越来越重。马年假期，好好陪爸妈吃顿饭。';
+                else if (percent < 90) tip = '🌳 80%+，人生过半，剩下的都是礼物。马年，愿你从容。';
+                else if (percent < 100) tip = '⭐ 90%+，快圆满了。马年，愿你剩下的每一步都踏在喜欢的路上。';
+                else tip = '🎉 100%！马到成功！这一局，你玩得很漂亮。';
+                wisdomTip.innerText = tip;
+            }
+
+            function updateStickyProgress() {
+                if (!stickyProgressModule) return;
+                const checkedCount = checkedState.filter(v => v).length;
+                const percent = flatTasks.length === 0 ? 0 : Math.round((checkedCount / flatTasks.length) * 100);
+                stickyProgressModule.innerHTML = `
+                    <div class="progress-title"><span>🧧 马年已解锁人生关卡</span><span class="stats-number">${checkedCount}/${flatTasks.length}</span></div>
+                    <div class="progress-bar-bg"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+                    <div class="progress-stats"><span>🐎 马年进度</span><span>${percent}%</span></div>
+                    <div class="wisdom-tip">${wisdomTip.innerText}</div>
+                `;
+            }
+
+            function getChapterCheckedCount(chapterIdx) {
+                const range = chapterIndexRange[chapterIdx];
+                if (!range) return 0;
+                let count = 0;
+                for (let i = range.start; i <= range.end; i++) {
+                    if (checkedState[i]) count++;
+                }
+                return count;
+            }
+
+            function completeChapter(chapterIdx) {
+                const range = chapterIndexRange[chapterIdx];
+                for (let i = range.start; i <= range.end; i++) {
+                    checkedState[i] = true;
+                }
+                updateProgress();
+                renderChecklist();
+                saveData();
+            }
+
+            function editTask(chapterIdx, taskIdx) {
+                currentEditTask = { chapterIdx, taskIdx };
+                const taskItem = document.querySelector(`#task-${chapterIdx}-${taskIdx}`);
+                if (taskItem) {
+                    taskItem.classList.add('editing');
+                    const input = taskItem.querySelector('.task-edit-input');
+                    input.value = CHAPTERS[chapterIdx].tasks[taskIdx];
+                    input.focus();
+                }
+            }
+
+            function saveTaskEdit(chapterIdx, taskIdx, newText) {
+                if (newText.trim()) {
+                    CHAPTERS[chapterIdx].tasks[taskIdx] = newText.trim();
+                    rebuildFlatData();
+                }
+                currentEditTask = null;
+            }
+
+            function editChapterTitle(chapterIdx) {
+                currentEditChapterTitle = chapterIdx;
+                const chapterCard = document.querySelector(`.chapter-card[data-chapter-index="${chapterIdx}"]`);
+                if (chapterCard) {
+                    chapterCard.classList.add('editing-title');
+                    const input = chapterCard.querySelector('.chapter-title-edit');
+                    input.value = CHAPTERS[chapterIdx].name;
+                    input.focus();
+                }
+            }
+
+            function saveChapterTitleEdit(chapterIdx, newText) {
+                if (newText.trim()) {
+                    CHAPTERS[chapterIdx].name = newText.trim();
+                    rebuildFlatData();
+                }
+                currentEditChapterTitle = null;
+            }
+
+            function deleteTask(chapterIdx, taskIdx) {
+                if (confirm('确定要删除这个任务吗？')) {
+                    CHAPTERS[chapterIdx].tasks.splice(taskIdx, 1);
+                    rebuildFlatData();
+                }
+            }
+
+            function addTask(chapterIdx) {
+                const newTask = prompt('请输入新任务：');
+                if (newTask && newTask.trim()) {
+                    CHAPTERS[chapterIdx].tasks.push(newTask.trim());
+                    rebuildFlatData();
+                }
+            }
+
+            function deleteChapter(chapterIdx) {
+                pendingDeleteChapter = chapterIdx;
+                deleteModal.classList.add('show');
+            }
+
+            function addChapter() {
+                const newChapter = {
+                    icon: "📦",
+                    name: "新关卡",
+                    tasks: []
+                };
+                CHAPTERS.push(newChapter);
+                const newIdx = CHAPTERS.length - 1;
+                chapterCollapsed[newIdx] = true;
+                rebuildFlatData();
+                showToast('新关卡已添加');
+            }
+
+            function renderChecklist() {
+                let html = '';
+                CHAPTERS.forEach((chapter, cIdx) => {
+                    const chapterTotal = chapter.tasks.length;
+                    const chapterChecked = getChapterCheckedCount(cIdx);
+                    const isCollapsed = chapterCollapsed[cIdx] || false;
+                    
+                    html += `<div class="chapter-card" data-chapter-index="${cIdx}">`;
+                    
+                    html += `<div class="chapter-header" onclick="window.toggleChapter(${cIdx})">`;
+                    html += `<div class="chapter-header-left">`;
+                    html += `<span class="chapter-icon">${chapter.icon}</span>`;
+                    
+                    html += `<span class="chapter-title" ondblclick="event.stopPropagation(); window.editChapterTitle(${cIdx})">${chapter.name}</span>`;
+                    
+                    html += `<input type="text" class="chapter-title-edit" value="${chapter.name}" onblur="window.saveChapterTitleEdit(${cIdx}, this.value)" onkeypress="if(event.key==='Enter'){this.blur();}" onclick="event.stopPropagation();">`;
+                    
+                    html += `<span class="chapter-progress">${chapterChecked}/${chapterTotal}</span>`;
+                    html += `<span class="chapter-toggle ${isCollapsed ? 'collapsed' : 'expanded'}">${isCollapsed ? '▶' : '▼'}</span>`;
+                    html += `</div>`;
+                    html += `</div>`;
+                    
+                    html += `<div class="chapter-actions ${isCollapsed ? 'collapsed' : ''}">`;
+                    html += `<button class="chapter-btn" onclick="event.stopPropagation(); window.completeChapter(${cIdx})" title="一键完成本关">✅ 一键完成</button>`;
+                    html += `<button class="chapter-btn" onclick="event.stopPropagation(); window.addTask(${cIdx})" title="新增任务">➕ 新增任务</button>`;
+                    html += `<button class="chapter-btn delete" onclick="event.stopPropagation(); window.deleteChapter(${cIdx})" title="删除本关">🗑️ 删除关卡</button>`;
+                    html += `</div>`;
+                    
+                    html += `<div class="task-list ${isCollapsed ? 'collapsed' : ''}" id="tasklist-${cIdx}">`;
+                    
+                    chapter.tasks.forEach((task, tIdx) => {
+                        const globalIdx = chapterIndexRange[cIdx]?.start + tIdx;
+                        const isChecked = globalIdx !== undefined && checkedState[globalIdx] ? 'checked' : '';
+                        
+                        html += `<div class="task-item" id="task-${cIdx}-${tIdx}">`;
+                        html += `<input type="checkbox" id="task_${cIdx}_${tIdx}" data-chapter="${cIdx}" data-task="${tIdx}" ${isChecked}>`;
+                        html += `<label for="task_${cIdx}_${tIdx}" class="task-label" ondblclick="window.editTask(${cIdx}, ${tIdx})">${task}</label>`;
+                        html += `<input type="text" class="task-edit-input" value="${task}" onblur="window.saveTaskEdit(${cIdx}, ${tIdx}, this.value)" onkeypress="if(event.key==='Enter'){this.blur();}">`;
+                        html += `<button class="task-delete" onclick="window.deleteTask(${cIdx}, ${tIdx})" title="删除任务">✕</button>`;
+                        html += `</div>`;
+                    });
+                    
+                    html += `</div>`;
+                    html += `</div>`;
+                });
+                
+                chapterContainer.innerHTML = html;
+
+                document.querySelectorAll('.task-item input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.addEventListener('change', function(e) {
+                        const chapterIdx = parseInt(this.dataset.chapter);
+                        const taskIdx = parseInt(this.dataset.task);
+                        const globalIdx = chapterIndexRange[chapterIdx]?.start + taskIdx;
+                        if (globalIdx !== undefined) {
+                            checkedState[globalIdx] = this.checked;
+                            
+                            const chapterChecked = getChapterCheckedCount(chapterIdx);
+                            const chapterCard = document.querySelector(`.chapter-card[data-chapter-index="${chapterIdx}"] .chapter-progress`);
+                            if (chapterCard) {
+                                chapterCard.innerText = `${chapterChecked}/${CHAPTERS[chapterIdx].tasks.length}`;
+                            }
+                            
+                            updateProgress();
+                            saveData();
+                        }
+                    });
+                });
+            }
+
+            window.toggleChapter = function(chapterIdx) {
+                chapterCollapsed[chapterIdx] = !chapterCollapsed[chapterIdx];
+                renderChecklist();
+                saveData();
+            };
+
+            window.completeChapter = function(chapterIdx) {
+                completeChapter(chapterIdx);
+            };
+
+            window.editTask = function(chapterIdx, taskIdx) {
+                editTask(chapterIdx, taskIdx);
+            };
+
+            window.saveTaskEdit = function(chapterIdx, taskIdx, newText) {
+                saveTaskEdit(chapterIdx, taskIdx, newText);
+            };
+
+            window.editChapterTitle = function(chapterIdx) {
+                editChapterTitle(chapterIdx);
+            };
+
+            window.saveChapterTitleEdit = function(chapterIdx, newText) {
+                saveChapterTitleEdit(chapterIdx, newText);
+            };
+
+            window.deleteTask = function(chapterIdx, taskIdx) {
+                deleteTask(chapterIdx, taskIdx);
+            };
+
+            window.addTask = function(chapterIdx) {
+                addTask(chapterIdx);
+            };
+
+            window.deleteChapter = function(chapterIdx) {
+                deleteChapter(chapterIdx);
+            };
+
+            function exportChecklist() {
+                const data = {
+                    chapters: CHAPTERS,
+                    version: '1.0',
+                    exportTime: new Date().toISOString()
+                };
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `马年人生清单-${new Date().toISOString().slice(0,10)}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('导出成功');
+            }
+
+            function importChecklist() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.json';
+                input.onchange = function(e) {
+                    const file = e.target.files[0];
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const data = JSON.parse(e.target.result);
+                            if (data.chapters && Array.isArray(data.chapters)) {
+                                CHAPTERS = data.chapters;
+                                CHAPTERS.forEach((_, idx) => { chapterCollapsed[idx] = true; });
+                                rebuildFlatData();
+                                showToast('导入成功');
+                            } else {
+                                alert('文件格式错误');
+                            }
+                        } catch (err) {
+                            alert('文件解析失败');
+                        }
+                    };
+                    reader.readAsText(file);
+                };
+                input.click();
+            }
+
+            async function generateLongImage() {
+                showToast('🎠 生成中，马年好运加载中...', 2000);
+                
+                try {
+                    const questionnaire = document.getElementById('questionnaire-section');
+                    
+                    const container = document.createElement('div');
+                    container.style.backgroundColor = '#fff8f5';
+                    container.style.padding = '0';
+                    container.style.width = questionnaire.offsetWidth + 'px';
+                    
+                    const questionnaireClone = questionnaire.cloneNode(true);
+                    
+                    questionnaireClone.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                        checkbox.disabled = true;
+                    });
+                    questionnaireClone.querySelectorAll('.chapter-header').forEach(header => {
+                        header.onclick = null;
+                    });
+                    
+                    container.appendChild(questionnaireClone);
+                    container.style.position = 'absolute';
+                    container.style.left = '-9999px';
+                    container.style.top = '0';
+                    document.body.appendChild(container);
+                    
+                    const canvas = await html2canvas(container, {
+                        scale: 2,
+                        backgroundColor: '#fff8f5',
+                        allowTaint: false,
+                        useCORS: true,
+                        logging: false
+                    });
+                    
+                    document.body.removeChild(container);
+                    
+                    const imgData = canvas.toDataURL('image/png');
+                    
+                    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                    const saveTip = isMobile ? '👆 长按图片，选择「保存图片」到相册' : '🖱️ 右键点击图片，选择「图片另存为」';
+                    
+                    const overlay = document.createElement('div');
+                    overlay.className = 'image-modal-overlay';
+                    overlay.innerHTML = `
+                        <div class="image-modal-container">
+                            <div class="image-modal-body">
+                                <img src="${imgData}" alt="马年人生进度" id="modal-image">
+                            </div>
+                            <div class="image-modal-footer">
+                                <div class="save-tip">${saveTip}</div>
+                                <div class="close-modal-btn">关 闭</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.body.appendChild(overlay);
+                    document.body.style.overflow = 'hidden';
+                    
+                    const closeModal = () => {
+                        if (overlay.parentNode) {
+                            overlay.parentNode.removeChild(overlay);
+                        }
+                        document.body.style.overflow = '';
+                    };
+                    
+                    overlay.addEventListener('click', (e) => {
+                        if (e.target === overlay) closeModal();
+                    });
+                    
+                    overlay.querySelector('.close-modal-btn').addEventListener('click', closeModal);
+                    
+                } catch (error) {
+                    console.error('截图失败:', error);
+                    showToast('生成失败，请稍后重试', 2000);
+                }
+            }
+
+            function generateQRCode() {
+                const gridContainer = document.getElementById('qrcode-grid');
+                if (!gridContainer) return;
+                
+                let gridHtml = '';
+                for (let i = 0; i < 49; i++) {
+                    const isBlack = Math.random() > 0.5;
+                    gridHtml += `<div class="qrcode-cell ${isBlack ? 'black' : ''}"></div>`;
+                }
+                gridContainer.innerHTML = gridHtml;
+            }
+
+            function showToast(msg, duration = 1500) {
+                toast.textContent = msg;
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), duration);
+            }
+
+            function setupStickyScroll() {
+                let ticking = false;
+                
+                window.addEventListener('scroll', () => {
+                    if (!ticking) {
+                        window.requestAnimationFrame(() => {
+                            const progressModuleRect = progressModule.getBoundingClientRect();
+                            if (progressModuleRect.top < 0) {
+                                stickyContainer.style.display = 'block';
+                            } else {
+                                stickyContainer.style.display = 'none';
+                            }
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                });
+            }
+
+            function getRandomFortuneByLevel(level) {
+                const levelFortunes = FORTUNES.filter(f => f.level === level);
+                const randomIndex = Math.floor(Math.random() * levelFortunes.length);
+                return levelFortunes[randomIndex].text;
+            }
+
+            function startRolling() {
+                if (rollingTimer) clearInterval(rollingTimer);
+                
+                revealBtn.style.display = 'none';
+                horseResult.style.display = 'block';
+                rollingArea.style.display = 'block';
+                resultDisplay.style.display = 'none';
+
+                const rollWords = ['🐴 小马驹', '🏇 千里马', '⚔️ 战马', '👑 领头马', '🧓 老马识途', '🎲 占卜中', '✨ 马年运势', '🍀 等等'];
+                let count = 0;
+                rollingTimer = setInterval(() => {
+                    rollingArea.innerText = rollWords[count % rollWords.length];
+                    count++;
+                }, 80);
+
+                setTimeout(() => {
+                    clearInterval(rollingTimer);
+                    rollingTimer = null;
+                    rollingArea.style.display = 'none';
+                    
+                    const percent = flatTasks.length === 0 ? 0 : Math.round((checkedState.filter(v=>v).length / flatTasks.length) * 100);
+                    const levelInfo = getHorseLevel(percent);
+                    const fortune = getRandomFortuneByLevel(levelInfo.level);
+                    
+                    resultHorseName.innerText = levelInfo.name;
+                    resultHorseDesc.innerText = levelInfo.desc;
+                    resultFortune.innerText = fortune;
+                    
+                    resultDisplay.style.display = 'block';
+                }, 1500);
+            }
+
+            revealBtn.addEventListener('click', startRolling);
+            retestBtn.addEventListener('click', startRolling);
+            shareBtn.addEventListener('click', () => {
+                showToast('长按上方图片即可分享（截图已包含结果）', 2000);
+            });
+
+            generateBtn.addEventListener('click', generateLongImage);
+            exportBtn.addEventListener('click', exportChecklist);
+            importBtn.addEventListener('click', importChecklist);
+            resetBtn.addEventListener('click', resetChecklist);
+            addChapterBtn.addEventListener('click', addChapter);
+            
+            cancelDelete.addEventListener('click', () => {
+                deleteModal.classList.remove('show');
+                pendingDeleteChapter = null;
+            });
+            
+            confirmDelete.addEventListener('click', () => {
+                if (pendingDeleteChapter !== null) {
+                    CHAPTERS.splice(pendingDeleteChapter, 1);
+                    rebuildFlatData();
+                    deleteModal.classList.remove('show');
+                    pendingDeleteChapter = null;
+                    showToast('关卡已删除');
+                }
+            });
+
+            deleteModal.addEventListener('click', (e) => {
+                if (e.target === deleteModal) {
+                    deleteModal.classList.remove('show');
+                    pendingDeleteChapter = null;
+                }
+            });
+
+            // 初始化
+            loadData();
+            generateQRCode();
+            setupStickyScroll();
+            
+            setTimeout(() => updateStickyProgress(), 100);
+        })();
+    </script>
 </body>
 </html>
