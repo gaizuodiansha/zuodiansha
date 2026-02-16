@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-    <title>该做啥 · 马年人生进度滚雪球</title>
+    <title>2026年，我是什么马？</title>
     <style>
         * {
             margin: 0;
@@ -184,12 +184,17 @@
             color: white;
         }
 
-        /* 全局工具栏 */
+        /* 全局工具栏 - 调整为两行布局以适应新按钮 */
+        .toolbar-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            justify-content: space-between;
+        }
         .global-toolbar {
             display: flex;
             gap: 12px;
-            margin-bottom: 24px;
-            justify-content: space-between;
+            flex: 1;
         }
         .global-btn {
             background: #fff0e8;
@@ -216,6 +221,15 @@
             background: #8B4B3E;
             border-color: #8B4B3E;
         }
+        #switchThemeBtn {
+            background: #C7452B;
+            color: white;
+            border: 1px solid #FFD700;
+            min-width: 140px;
+        }
+        #switchThemeBtn:hover {
+            background: #E86B4F;
+        }
 
         /* 马年新春横幅 */
         .new-year-banner {
@@ -234,7 +248,7 @@
             box-shadow: 0 4px 12px rgba(199,69,43,0.4);
         }
 
-        /* 顶部祝福语 */
+        /* 顶部动态文案 */
         .top-blessing {
             background: #fff0e8;
             color: #C7452B;
@@ -277,6 +291,14 @@
             font-size: 18px;
             font-weight: 600;
             box-shadow: 0 4px 8px rgba(199,69,43,0.3);
+        }
+        /* 副标题样式 */
+        .sub-header {
+            text-align: center;
+            color: #C7452B;
+            font-size: 16px;
+            margin-top: -10px;
+            margin-bottom: 10px;
         }
 
         /* 进度条模块 */
@@ -358,8 +380,6 @@
             border: 1px dashed #C7452B;
             box-shadow: none;
         }
-
-        /* 等级预览已删除 */
 
         .chapter-list {
             display: flex;
@@ -554,28 +574,18 @@
         .qrcode-placeholder {
             width: 140px;
             height: 140px;
-            background: #C7452B;
             margin: 0 auto 16px;
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             border: 3px solid #FFD700;
+            overflow: hidden;
         }
-        .qrcode-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            width: 120px;
-            height: 120px;
-            margin: 10px auto;
-        }
-        .qrcode-cell {
-            background-color: #FFD700;
-            border-radius: 2px;
-        }
-        .qrcode-cell.black {
-            background-color: #C7452B;
+        .qrcode-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .qrcode-footer p {
             color: #C7452B;
@@ -705,6 +715,50 @@
             margin-bottom: 16px;
             text-align: center;
         }
+        /* 关注条样式 */
+        .follow-bar {
+            display: none;
+            margin-top: 20px;
+            padding: 12px;
+            background: #fff0e8;
+            border-radius: 40px;
+            border: 1px solid #C7452B;
+            text-align: left;
+        }
+        .follow-bar-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .follow-qr {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            border: 1px solid #C7452B;
+            overflow: hidden;
+        }
+        .follow-qr img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .follow-text {
+            flex: 1;
+        }
+        .follow-text p {
+            font-size: 16px;
+            color: #C7452B;
+            margin-bottom: 8px;
+        }
+        .copy-btn {
+            background: #C7452B;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 30px;
+            font-size: 14px;
+            cursor: pointer;
+        }
 
         /* ========== 自适应媒体查询 ========== */
         @media screen and (max-width: 480px) {
@@ -714,6 +768,7 @@
             .snow-header h2 { font-size: 24px; }
             .snow-badge { font-size: 16px; padding: 8px 14px; }
             .global-btn { font-size: 13px; padding: 10px 8px; white-space: normal; word-break: keep-all; }
+            #switchThemeBtn { min-width: 120px; }
             .chapter-title { font-size: 16px; }
             .chapter-icon { font-size: 24px; }
             .chapter-progress { font-size: 14px; padding: 4px 10px; }
@@ -743,6 +798,7 @@
             .snow-header h2 { font-size: 20px; }
             .snow-badge { font-size: 14px; padding: 6px 10px; }
             .global-btn { font-size: 12px; padding: 8px 4px; }
+            #switchThemeBtn { min-width: 100px; font-size: 12px; }
             .chapter-title { font-size: 14px; }
             .chapter-icon { font-size: 22px; }
             .chapter-progress { font-size: 12px; padding: 3px 8px; }
@@ -775,7 +831,7 @@
             .task-item:hover .task-delete { opacity: 0.5; }
         }
 
-        /* 底部增加关卡按钮样式（与原程序一致） */
+        /* 底部增加关卡按钮样式 */
         .add-chapter-btn {
             background: #fff0e8;
             border: 2px dashed #C7452B;
@@ -827,27 +883,32 @@
     </div>
 
     <div id="app">
-        <!-- 全局工具栏 -->
-        <div class="global-toolbar">
-            <button class="global-btn" id="exportBtn">📤 导出清单</button>
-            <button class="global-btn" id="importBtn">📥 导入清单</button>
-            <button class="global-btn reset" id="resetBtn">🔄 重置清单</button>
+        <!-- 第一行工具栏：导出/导入/重置 -->
+        <div class="toolbar-row">
+            <div class="global-toolbar">
+                <button class="global-btn" id="exportBtn">📤 导出清单</button>
+                <button class="global-btn" id="importBtn">📥 导入清单</button>
+                <button class="global-btn reset" id="resetBtn">🔄 重置清单</button>
+            </div>
+        </div>
+        
+        <!-- 第二行：主题切换按钮 -->
+        <div class="toolbar-row" style="justify-content: flex-end;">
+            <button class="global-btn" id="switchThemeBtn">🔄 切换为马年计划</button>
         </div>
 
-        <!-- 马年新春横幅 -->
-        <div class="new-year-banner">
-            🐴 马年大吉 · 一马当先 · 万事胜意 🧧
-        </div>
 
-        <!-- 顶部祝福语 -->
-        <div class="top-blessing">
-            <span>🎊</span> 祝我的好朋友马年大吉，新年快乐！ <span>🎊</span>
+        <!-- 顶部动态文案（原祝福语板块） -->
+        <div class="top-blessing" id="dynamicTopMessage">
+            <span>🎊</span> 回顾我牛马的一生 <span>🎊</span>
         </div>
 
         <div class="snow-header">
-            <h2><span>🐴 马年看看你是什么马？</span></h2>
+            <h2><span>看看我是什么马？</span></h2>
             <span class="snow-badge" id="percentBadge">0%</span>
         </div>
+        <!-- 副标题 -->
+        <div class="sub-header">—— 用「该做点啥·人生作弊器」清单小抄，给目标提提速</div>
 
         <!-- 进度条模块 -->
         <div id="progress-module">
@@ -868,12 +929,10 @@
                 🌱 慢慢来，每一步都算数。
             </div>
 
-            <!-- 淡化广告条 -->
+            <!-- 广告条 -->
             <div class="ad-banner">
-                🔍 关注「该做啥」生成你的同款人生进度
+                🔍 关注「该做点啥」生成你的同款人生进度
             </div>
-
-            <!-- 等级预览已删除 -->
         </div>
 
         <!-- 关卡列表容器 -->
@@ -903,19 +962,31 @@
                     <button id="retest-btn" class="global-btn" style="flex: 1; background: #fff0e8;">🔄 再测一次</button>
                     <button id="share-result-btn" class="global-btn" style="flex: 1; background: #fff0e8;">📤 分享结果</button>
                 </div>
+                <!-- 关注引导条 -->
+                <div id="follow-bar" class="follow-bar">
+                    <div class="follow-bar-content">
+                        <div class="follow-qr">
+                            <img src="gaizuodiansha_qrcode.jpg" alt="公众号二维码">
+                        </div>
+                        <div class="follow-text">
+                            <p>🎁 回复公众号「马年」，领取你的专属运势详解 + 全套人生清单模板</p>
+                            <button id="copyWechatBtn" class="copy-btn">📋 复制公众号名称「该做点啥」</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- 二维码区域（带祝福语） -->
+        <!-- 二维码区域 -->
         <div id="qrcode-footer" class="qrcode-footer">
             <div class="blessing-message">
-                <span>🐴</span> 祝我的好朋友马年大吉，万事顺遂 <span>🧧</span>
+                <span>🐴</span> 接好运，马年大吉，万事顺遂 <span>🧧</span>
             </div>
 
             <div class="qrcode-placeholder">
-                <div class="qrcode-grid" id="qrcode-grid"></div>
+                <img src="gaizuodiansha_qrcode.jpg" alt="公众号二维码">
             </div>
-            <p>🐴 关注「该做啥」· 马到成功</p>
+            <p>🐴 关注「该做点啥」· 马到成功</p>
             <p class="sub">生成你的马年人生进度 · 分享好运</p>
         </div>
 
@@ -929,7 +1000,7 @@
 
         <!-- 版权脚注 -->
         <div class="copyright-footer">
-            © 2025 该做啥 · 版本 1.0
+            © 2025 该做点啥 · 人生作弊器 · 复杂生活，简单过
         </div>
     </div>
 
@@ -1049,99 +1120,170 @@
                 { level: 5, text: "今年你会突然觉得——这辈子，值了。不是因为没有遗憾，而是因为遗憾也是风景。" }
             ];
 
-            // 默认清单数据（8个关卡）
-            const DEFAULT_CHAPTERS = [
-                {
-                    icon: "🍼",
-                    name: "第一关：新手村任务",
-                    tasks: [
-                        "出生 —— 成功登录地球服务器",
-                        "第一次哭 —— 首场公开演出",
-                        "学会走路 —— 此后一生都在追逐",
-                        "第一次叫妈 —— 解锁人类语音包",
-                        "换牙 —— 牙齿交给枕头，换来一枚硬币"
+            // ==================== 主题清单定义 ====================
+            const THEMES = {
+                life: {
+                    name: '人生清单',
+                    chapters: [
+                        {
+                            icon: "🍼",
+                            name: "第一关：新手村任务",
+                            tasks: [
+                                "出生 —— 成功登录地球服务器",
+                                "第一次哭 —— 首场公开演出",
+                                "学会走路 —— 此后一生都在追逐",
+                                "第一次叫妈 —— 解锁人类语音包",
+                                "换牙 —— 牙齿交给枕头，换来一枚硬币"
+                            ]
+                        },
+                        {
+                            icon: "📚",
+                            name: "第二关：校园副本",
+                            tasks: [
+                                "上小学 —— 背上了比梦想还沉的书包",
+                                "第一次考试 —— 理解临时抱佛脚是一门学科",
+                                "毕业 —— 拿到社会入场券",
+                                "同学录 —— 写过永远做朋友",
+                                "暗恋 —— 毕业也没说出口"
+                            ]
+                        },
+                        {
+                            icon: "💼",
+                            name: "第三关：社会生存模式",
+                            tasks: [
+                                "第一份工作 —— 改变世界和改PPT是同一件事",
+                                "第一次发工资 —— 给爸妈发红包/请朋友吃饭",
+                                "第一次跳槽 —— 学会写个人发展规划",
+                                "第一次被裁/裸辞 —— 成就：终于睡够了",
+                                "租房 —— 搬过3次家以上",
+                                "第一次独立处理大事 —— 办证件/修水管/深夜急诊"
+                            ]
+                        },
+                        {
+                            icon: "💍",
+                            name: "第四关：人类绑定任务",
+                            tasks: [
+                                "第一次心动 —— 那年夏天，以为这个人就是全部",
+                                "第一次失恋 —— 世界没塌，只是变灰了",
+                                "遇到想共度余生的人 —— 这次是真的",
+                                "结婚 —— 在领个证和办场戏之间完成博弈",
+                                "度蜜月（哪怕只是去了隔壁市）"
+                            ]
+                        },
+                        {
+                            icon: "👶",
+                            name: "第五关：人类复制任务",
+                            tasks: [
+                                "备孕 —— 认真得像在准备高考",
+                                "第一次当父母 —— 理论满分，实战手忙脚乱",
+                                "第一次换尿布 —— 被滋了一脸，还笑了",
+                                "第一次家长会 —— 坐进小椅子，理解了当年的老师",
+                                "辅导作业 —— 血压正常，尚在安全区"
+                            ]
+                        },
+                        {
+                            icon: "🚐",
+                            name: "第六关：生存彩蛋",
+                            tasks: [
+                                "说走就走的旅行 —— 哪怕只是去了隔壁省",
+                                "通宵 —— 不是玩，是真的睡不着",
+                                "一个人吃火锅/看电影/去医院",
+                                "啥也不顾的旅行 —— 关工作群、不查攻略、不为发朋友圈",
+                                "学会拒绝 —— 婉拒过三次推销电话也算"
+                            ]
+                        },
+                        {
+                            icon: "🏠",
+                            name: "第七关：家庭史诗任务",
+                            tasks: [
+                                "第一次给父母买东西 —— 他们嘴上说乱花钱，朋友圈发了三天",
+                                "第一次带父母体检 —— 攥着报告单不敢打开",
+                                "装修 —— 和装修公司吵架经验值+100",
+                                "第一次处理家庭大事 —— 发现自己不再是等安排的小孩",
+                                "成为父母的骄傲 —— 他们觉得已经是，你还觉得不够"
+                            ]
+                        },
+                        {
+                            icon: "🌳",
+                            name: "第八关：终局彩蛋",
+                            tasks: [
+                                "立遗嘱 —— 其实是手机备忘录：把我微信收藏夹删掉",
+                                "完成一个年轻时吹过的牛 —— 哪怕只有半个",
+                                "和所有在意的人和好/告别 —— 不急，但记在心里",
+                                "浏览器历史记录已清空 —— 每个人都有自己的秘密花园",
+                                "自动续费已全部取消 —— 人生最后一次关掉会员",
+                                "对自己说：这一局，玩得还不错"
+                            ]
+                        }
                     ]
                 },
-                {
-                    icon: "📚",
-                    name: "第二关：校园副本",
-                    tasks: [
-                        "上小学 —— 背上了比梦想还沉的书包",
-                        "第一次考试 —— 理解临时抱佛脚是一门学科",
-                        "毕业 —— 拿到社会入场券",
-                        "同学录 —— 写过永远做朋友",
-                        "暗恋 —— 毕业也没说出口"
-                    ]
-                },
-                {
-                    icon: "💼",
-                    name: "第三关：社会生存模式",
-                    tasks: [
-                        "第一份工作 —— 改变世界和改PPT是同一件事",
-                        "第一次发工资 —— 给爸妈发红包/请朋友吃饭",
-                        "第一次跳槽 —— 学会写个人发展规划",
-                        "第一次被裁/裸辞 —— 成就：终于睡够了",
-                        "租房 —— 搬过3次家以上",
-                        "第一次独立处理大事 —— 办证件/修水管/深夜急诊"
-                    ]
-                },
-                {
-                    icon: "💍",
-                    name: "第四关：人类绑定任务",
-                    tasks: [
-                        "第一次心动 —— 那年夏天，以为这个人就是全部",
-                        "第一次失恋 —— 世界没塌，只是变灰了",
-                        "遇到想共度余生的人 —— 这次是真的",
-                        "结婚 —— 在领个证和办场戏之间完成博弈",
-                        "度蜜月（哪怕只是去了隔壁市）"
-                    ]
-                },
-                {
-                    icon: "👶",
-                    name: "第五关：人类复制任务",
-                    tasks: [
-                        "备孕 —— 认真得像在准备高考",
-                        "第一次当父母 —— 理论满分，实战手忙脚乱",
-                        "第一次换尿布 —— 被滋了一脸，还笑了",
-                        "第一次家长会 —— 坐进小椅子，理解了当年的老师",
-                        "辅导作业 —— 血压正常，尚在安全区"
-                    ]
-                },
-                {
-                    icon: "🚐",
-                    name: "第六关：生存彩蛋",
-                    tasks: [
-                        "说走就走的旅行 —— 哪怕只是去了隔壁省",
-                        "通宵 —— 不是玩，是真的睡不着",
-                        "一个人吃火锅/看电影/去医院",
-                        "啥也不顾的旅行 —— 关工作群、不查攻略、不为发朋友圈",
-                        "学会拒绝 —— 婉拒过三次推销电话也算"
-                    ]
-                },
-                {
-                    icon: "🏠",
-                    name: "第七关：家庭史诗任务",
-                    tasks: [
-                        "第一次给父母买东西 —— 他们嘴上说乱花钱，朋友圈发了三天",
-                        "第一次带父母体检 —— 攥着报告单不敢打开",
-                        "装修 —— 和装修公司吵架经验值+100",
-                        "第一次处理家庭大事 —— 发现自己不再是等安排的小孩",
-                        "成为父母的骄傲 —— 他们觉得已经是，你还觉得不够"
-                    ]
-                },
-                {
-                    icon: "🌳",
-                    name: "第八关：终局彩蛋",
-                    tasks: [
-                        "立遗嘱 —— 其实是手机备忘录：把我微信收藏夹删掉",
-                        "完成一个年轻时吹过的牛 —— 哪怕只有半个",
-                        "和所有在意的人和好/告别 —— 不急，但记在心里",
-                        "浏览器历史记录已清空 —— 每个人都有自己的秘密花园",
-                        "自动续费已全部取消 —— 人生最后一次关掉会员",
-                        "对自己说：这一局，玩得还不错"
+                horseYear: {
+                    name: '马年计划',
+                    chapters: [
+                        {
+                            icon: "🧧",
+                            name: "春节必做",
+                            tasks: [
+                                "给好朋友拜年（微信红包走起）",
+                                "和家人吃一顿团圆饭（放下手机）",
+                                "看一场春节档电影（吐槽也是乐趣）",
+                                "拍一张全家福（记录时光）"
+                            ]
+                        },
+                        {
+                            icon: "✈️",
+                            name: "旅行计划",
+                            tasks: [
+                                "来一次说走就走的旅行（哪怕只是周边）",
+                                "尝试一次露营/民宿（换个地方睡觉）",
+                                "打卡一个一直想去的地方",
+                                "拍一组旅行vlog（哪怕只有自己看）"
+                            ]
+                        },
+                        {
+                            icon: "💪",
+                            name: "自我提升",
+                            tasks: [
+                                "学会一个新技能（乐器/烹饪/编程）",
+                                "读完5本书（纸质书也行）",
+                                "坚持运动一个月（3天也算坚持）",
+                                "戒掉一个坏习惯（比如熬夜）"
+                            ]
+                        },
+                        {
+                            icon: "👨‍👩‍👧",
+                            name: "亲情时刻",
+                            tasks: [
+                                "陪父母吃一顿饭（认真聊天那种）",
+                                "给父母买一份礼物（不用太贵）",
+                                "带父母体检一次（健康最重要）",
+                                "教父母用一个新的APP（视频通话/抖音）"
+                            ]
+                        },
+                        {
+                            icon: "🎉",
+                            name: "自我奖励",
+                            tasks: [
+                                "做一件一直想做但不敢做的事",
+                                "给自己买一件心仪已久的礼物",
+                                "好好利用一次假期（完全不工作）",
+                                "写一篇年终总结（哪怕只有自己看）"
+                            ]
+                        },
+                        {
+                            icon: "🌱",
+                            name: "小确幸清单",
+                            tasks: [
+                                "看一次日出/日落",
+                                "吃一次从未吃过的美食",
+                                "给陌生人一个微笑（或帮助）",
+                                "整理房间（断舍离一次）",
+                                "种一盆植物（养活一个月算成功）"
+                            ]
+                        }
                     ]
                 }
-            ];
+            };
 
             // 状态管理
             let chapters = [];
@@ -1151,6 +1293,9 @@
             let currentEditTask = null;
             let rollingTimer = null;
             let pendingDeleteChapter = null;
+            
+            // 当前主题
+            let currentTheme = 'life'; // 'life' 或 'horseYear'
 
             // DOM 元素
             const chapterList = document.getElementById('chapterList');
@@ -1170,6 +1315,7 @@
             const cancelDelete = document.getElementById('cancelDelete');
             const confirmDelete = document.getElementById('confirmDelete');
             const wisdomTip = document.getElementById('wisdomTip');
+            const switchThemeBtn = document.getElementById('switchThemeBtn');
 
             const revealBtn = document.getElementById('reveal-horse-btn');
             const horseResult = document.getElementById('horse-result');
@@ -1180,8 +1326,9 @@
             const resultFortune = document.getElementById('result-fortune');
             const retestBtn = document.getElementById('retest-btn');
             const shareBtn = document.getElementById('share-result-btn');
-
-            // 等级预览相关元素已删除，不再获取
+            const followBar = document.getElementById('follow-bar');
+            const copyWechatBtn = document.getElementById('copyWechatBtn');
+            const dynamicTopMessage = document.getElementById('dynamicTopMessage');
 
             const progressModule = document.getElementById('progress-module');
             const stickyContainer = document.getElementById('sticky-progress-container');
@@ -1190,6 +1337,7 @@
 
             // ========== 数据持久化 ==========
             const STORAGE_KEY = 'maYearChecklist';
+            const THEME_STORAGE_KEY = 'currentTheme';
             
             function saveToLocalStorage() {
                 const data = {
@@ -1198,52 +1346,105 @@
                     expandedState: expandedState
                 };
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                // 同时按主题单独保存
+                saveThemeProgress(currentTheme);
             }
-
-            function loadFromLocalStorage() {
-                const saved = localStorage.getItem(STORAGE_KEY);
+            
+            function saveThemeProgress(theme) {
+                const data = {
+                    chapters: chapters,
+                    checkedState: checkedState,
+                    expandedState: expandedState
+                };
+                localStorage.setItem(`theme_${theme}`, JSON.stringify(data));
+            }
+            
+            function loadThemeProgress(theme) {
+                const saved = localStorage.getItem(`theme_${theme}`);
                 if (saved) {
                     try {
                         const data = JSON.parse(saved);
-                        if (data.chapters && Array.isArray(data.chapters)) {
-                            chapters = data.chapters;
-                            checkedState = data.checkedState || [];
-                            expandedState = data.expandedState || {};
-                            // 确保checkedState长度与任务总数一致
-                            const totalTasks = chapters.reduce((sum, ch) => sum + ch.tasks.length, 0);
-                            if (checkedState.length !== totalTasks) {
-                                // 如果不一致，重新初始化checkedState
-                                checkedState = new Array(totalTasks).fill(false);
+                        // 只恢复勾选状态和折叠状态，章节结构以当前主题为准
+                        const totalTasks = chapters.reduce((sum, ch) => sum + ch.tasks.length, 0);
+                        if (data.checkedState && data.checkedState.length === totalTasks) {
+                            checkedState = data.checkedState;
+                        } else {
+                            checkedState = new Array(totalTasks).fill(false);
+                        }
+                        
+                        if (data.expandedState) {
+                            expandedState = data.expandedState;
+                        } else {
+                            chapters.forEach((_, idx) => { expandedState[idx] = false; });
+                        }
+                    } catch (e) {
+                        console.warn('加载主题进度失败', e);
+                    }
+                } else {
+                    // 无保存进度，全部未勾选
+                    checkedState = new Array(chapters.reduce((sum, ch) => sum + ch.tasks.length, 0)).fill(false);
+                    chapters.forEach((_, idx) => { expandedState[idx] = false; });
+                }
+            }
+
+            function loadFromLocalStorage() {
+                const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+                if (savedTheme === 'life' || savedTheme === 'horseYear') {
+                    currentTheme = savedTheme;
+                }
+                
+                // 加载当前主题的章节
+                chapters = JSON.parse(JSON.stringify(THEMES[currentTheme].chapters));
+                
+                // 加载当前主题的进度
+                const saved = localStorage.getItem(`theme_${currentTheme}`);
+                if (saved) {
+                    try {
+                        const data = JSON.parse(saved);
+                        if (data.chapters) {
+                            // 验证章节结构是否匹配（可选）
+                            const savedTaskCount = data.chapters.reduce((sum, ch) => sum + ch.tasks.length, 0);
+                            const currentTaskCount = chapters.reduce((sum, ch) => sum + ch.tasks.length, 0);
+                            
+                            if (savedTaskCount === currentTaskCount && data.checkedState) {
+                                checkedState = data.checkedState;
+                            } else {
+                                checkedState = new Array(currentTaskCount).fill(false);
                             }
-                            // 确保每个章节在expandedState中有记录，默认折叠
-                            chapters.forEach((_, idx) => {
-                                if (expandedState[idx] === undefined) expandedState[idx] = false;
-                            });
-                            return true;
+                            
+                            if (data.expandedState) {
+                                expandedState = data.expandedState;
+                            } else {
+                                chapters.forEach((_, idx) => { expandedState[idx] = false; });
+                            }
+                        } else {
+                            checkedState = new Array(chapters.reduce((sum, ch) => sum + ch.tasks.length, 0)).fill(false);
+                            chapters.forEach((_, idx) => { expandedState[idx] = false; });
                         }
                     } catch (e) {
                         console.warn('读取本地存储失败', e);
+                        checkedState = new Array(chapters.reduce((sum, ch) => sum + ch.tasks.length, 0)).fill(false);
+                        chapters.forEach((_, idx) => { expandedState[idx] = false; });
                     }
+                } else {
+                    checkedState = new Array(chapters.reduce((sum, ch) => sum + ch.tasks.length, 0)).fill(false);
+                    chapters.forEach((_, idx) => { expandedState[idx] = false; });
                 }
-                return false;
+                
+                // 更新按钮文案
+                if (switchThemeBtn) {
+                    switchThemeBtn.innerHTML = currentTheme === 'life' ? '🔄 切换为马年计划' : '🔄 切换牛马人生计划';
+                }
+                
+                // 更新顶部文案
+                updateTopMessage(currentTheme);
+                
+                return true;
             }
 
             // 初始化数据
             function initData() {
-                if (!loadFromLocalStorage()) {
-                    // 无本地存储，使用默认
-                    chapters = JSON.parse(JSON.stringify(DEFAULT_CHAPTERS));
-                    // 默认所有关卡折叠
-                    chapters.forEach((_, idx) => { expandedState[idx] = false; });
-
-                    let taskIndex = 0;
-                    chapters.forEach(chapter => {
-                        chapter.tasks.forEach(() => {
-                            checkedState[taskIndex] = false;
-                            taskIndex++;
-                        });
-                    });
-                }
+                loadFromLocalStorage();
             }
 
             // 获取关卡进度
@@ -1282,8 +1483,6 @@
                 selectedCountSmall.textContent = checked;
                 totalCountSmall.textContent = total;
 
-                // 等级预览已删除，不再更新相关元素
-
                 // 更新温馨提示
                 if (percent < 20) wisdomTip.innerHTML = '🌱 才刚开始呢，像小马驹一样欢快地奔跑吧～';
                 else if (percent < 40) wisdomTip.innerHTML = '🍼 人生进度20%+，正是读书好时节。';
@@ -1298,19 +1497,18 @@
                     setTimeout(() => firework.classList.remove('show'), 1500);
                     document.querySelector('.snow-header h2 span').innerHTML = '🐴 马到成功！人生圆满 🎉';
                 } else {
-                    document.querySelector('.snow-header h2 span').innerHTML = '🐴 马年看看你是什么马？';
+                    document.querySelector('.snow-header h2 span').innerHTML = '🐴 看看我是什么马？';
                 }
 
                 updateStickyProgress();
             }
 
-            // 更新置顶进度条（修改为从wisdomTip获取动态文本）
+            // 更新置顶进度条
             function updateStickyProgress() {
                 if (!stickyProgressModule) return;
                 const total = checkedState.length;
                 const checked = checkedState.filter(v => v).length;
                 const percent = total === 0 ? 0 : Math.round((checked / total) * 100);
-                // 从主进度条的wisdomTip获取文本
                 const tipText = wisdomTip ? wisdomTip.innerText : '🌱 慢慢来，每一步都算数。';
 
                 stickyProgressModule.innerHTML = `
@@ -1346,16 +1544,9 @@
                 });
             }
 
-            // 生成二维码
+            // 生成二维码（已弃用，保留空函数避免报错）
             function generateQRCode() {
-                const grid = document.getElementById('qrcode-grid');
-                if (!grid) return;
-                let html = '';
-                for (let i = 0; i < 49; i++) {
-                    const isBlack = Math.random() > 0.5;
-                    html += `<div class="qrcode-cell ${isBlack ? 'black' : ''}"></div>`;
-                }
-                grid.innerHTML = html;
+                // 不再使用随机网格，已替换为真实图片
             }
 
             // 渲染关卡
@@ -1432,7 +1623,7 @@
             window.toggleChapter = function(chapterIdx) {
                 expandedState[chapterIdx] = !expandedState[chapterIdx];
                 renderChapters();
-                saveToLocalStorage(); // 保存折叠状态
+                saveToLocalStorage();
             };
 
             window.editChapterTitle = function(chapterIdx) {
@@ -1447,7 +1638,7 @@
                 if (newText.trim()) chapters[chapterIdx].name = newText.trim();
                 currentEditChapter = null;
                 renderChapters();
-                saveToLocalStorage(); // 保存
+                saveToLocalStorage();
             };
 
             window.editTask = function(chapterIdx, taskIdx) {
@@ -1462,7 +1653,7 @@
                 if (newText.trim()) chapters[chapterIdx].tasks[taskIdx] = newText.trim();
                 currentEditTask = null;
                 renderChapters();
-                saveToLocalStorage(); // 保存
+                saveToLocalStorage();
             };
 
             window.deleteTask = function(chapterIdx, taskIdx) {
@@ -1474,7 +1665,7 @@
                     checkedState = newChecked;
                     renderChapters();
                     updateProgress();
-                    saveToLocalStorage(); // 保存
+                    saveToLocalStorage();
                 }
             };
 
@@ -1484,7 +1675,7 @@
                 for (let i = 0; i < chapters[chapterIdx].tasks.length; i++) checkedState[start + i] = true;
                 renderChapters();
                 updateProgress();
-                saveToLocalStorage(); // 保存
+                saveToLocalStorage();
             };
 
             window.addTask = function(chapterIdx) {
@@ -1497,7 +1688,7 @@
                     checkedState = newChecked;
                     renderChapters();
                     updateProgress();
-                    saveToLocalStorage(); // 保存
+                    saveToLocalStorage();
                 }
             };
 
@@ -1508,10 +1699,10 @@
 
             // ========== 导出/导入/重置 ==========
             function exportChecklist() {
-                // 增强元信息：添加版本和导出时间
                 const data = { 
                     chapters, 
                     checked: checkedState,
+                    theme: currentTheme,
                     version: '1.0',
                     exportTime: new Date().toISOString()
                 };
@@ -1519,7 +1710,7 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `马年清单-${new Date().toISOString().slice(0,10)}.json`;
+                a.download = `${currentTheme}-清单-${new Date().toISOString().slice(0,10)}.json`;
                 a.click();
                 showToast('导出成功');
             }
@@ -1541,7 +1732,7 @@
                                 chapters.forEach((_, idx) => { expandedState[idx] = false; });
                                 renderChapters();
                                 updateProgress();
-                                saveToLocalStorage(); // 保存
+                                saveToLocalStorage();
                                 showToast('导入成功');
                             } else {
                                 alert('文件格式错误');
@@ -1557,14 +1748,59 @@
 
             function resetChecklist() {
                 if (confirm('确定要重置所有清单吗？当前进度将丢失。')) {
-                    chapters = JSON.parse(JSON.stringify(DEFAULT_CHAPTERS));
-                    chapters.forEach((_, idx) => { expandedState[idx] = false; }); // 折叠
-                    checkedState = [];
-                    chapters.forEach(c => c.tasks.forEach(() => checkedState.push(false)));
+                    // 重置为当前主题的默认章节
+                    chapters = JSON.parse(JSON.stringify(THEMES[currentTheme].chapters));
+                    chapters.forEach((_, idx) => { expandedState[idx] = false; });
+                    checkedState = new Array(chapters.reduce((sum, ch) => sum + ch.tasks.length, 0)).fill(false);
                     renderChapters();
                     updateProgress();
-                    saveToLocalStorage(); // 保存
+                    saveToLocalStorage();
                     showToast('已重置');
+                }
+            }
+
+            // ========== 主题切换功能 ==========
+            function switchTheme() {
+                // 保存当前主题进度
+                saveThemeProgress(currentTheme);
+                
+                if (currentTheme === 'life') {
+                    currentTheme = 'horseYear';
+                    switchThemeBtn.innerHTML = '🔄 切换牛马人生计划';
+                } else {
+                    currentTheme = 'life';
+                    switchThemeBtn.innerHTML = '🔄 切换为马年计划';
+                }
+                
+                // 加载新主题的章节
+                chapters = JSON.parse(JSON.stringify(THEMES[currentTheme].chapters));
+                
+                // 重置折叠状态
+                expandedState = {};
+                chapters.forEach((_, idx) => { expandedState[idx] = false; });
+                
+                // 加载新主题的保存进度
+                loadThemeProgress(currentTheme);
+                
+                // 保存当前主题到 localStorage
+                localStorage.setItem(THEME_STORAGE_KEY, currentTheme);
+                
+                // 更新顶部文案
+                updateTopMessage(currentTheme);
+                
+                // 重新渲染并更新进度
+                renderChapters();
+                updateProgress();
+            }
+            
+            // 更新顶部动态文案
+            function updateTopMessage(theme) {
+                if (!dynamicTopMessage) return;
+                
+                if (theme === 'life') {
+                    dynamicTopMessage.innerHTML = '<span>🎊</span> 回顾我牛马的一生 <span>🎊</span>';
+                } else if (theme === 'horseYear') {
+                    dynamicTopMessage.innerHTML = '<span>🎊</span> 小牛马的新年计划 <span>🎊</span>';
                 }
             }
 
@@ -1573,6 +1809,7 @@
                 horseResult.style.display = 'block';
                 rollingArea.style.display = 'block';
                 resultDisplay.style.display = 'none';
+                if (followBar) followBar.style.display = 'none';
 
                 const words = ['🐴 小马驹', '🏇 千里马', '⚔️ 战马', '👑 领头马', '🧓 老马识途'];
                 let count = 0;
@@ -1592,7 +1829,6 @@
                     const percent = total === 0 ? 0 : Math.round((checked / total) * 100);
                     const level = getHorseLevel(percent);
 
-                    // 按等级随机运势
                     const levelFortunes = FORTUNES.filter(f => f.level === (percent < 20 ? 1 : percent < 40 ? 2 : percent < 60 ? 3 : percent < 80 ? 4 : 5));
                     const fortune = levelFortunes[Math.floor(Math.random() * levelFortunes.length)].text;
 
@@ -1601,7 +1837,38 @@
                     resultFortune.textContent = fortune;
 
                     resultDisplay.style.display = 'block';
+                    if (followBar) followBar.style.display = 'block';
                 }, 1500);
+            }
+
+            // ========== 复制公众号名称 ==========
+            if (copyWechatBtn) {
+                copyWechatBtn.addEventListener('click', function() {
+                    const text = '该做点啥';
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(text).then(() => {
+                            showToast('公众号名称已复制，快去微信搜索关注吧');
+                        }).catch(() => {
+                            fallbackCopy(text);
+                        });
+                    } else {
+                        fallbackCopy(text);
+                    }
+                });
+            }
+
+            function fallbackCopy(text) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast('公众号名称已复制，快去微信搜索关注吧');
+                } catch (err) {
+                    showToast('复制失败，请手动输入');
+                }
+                document.body.removeChild(textarea);
             }
 
             // ========== 截图功能 ==========
@@ -1663,17 +1930,19 @@
             exportBtn.addEventListener('click', exportChecklist);
             importBtn.addEventListener('click', importChecklist);
             resetBtn.addEventListener('click', resetChecklist);
+            switchThemeBtn.addEventListener('click', switchTheme);
+            
             addChapterBtn.addEventListener('click', () => {
                 const newChapter = { icon: "📦", name: "新关卡", tasks: [] };
                 chapters.push(newChapter);
-                expandedState[chapters.length - 1] = false; // 默认折叠
+                expandedState[chapters.length - 1] = false;
                 let newChecked = [];
                 chapters.forEach(c => c.tasks.forEach(() => newChecked.push(false)));
                 for (let i = 0; i < Math.min(checkedState.length, newChecked.length); i++) newChecked[i] = checkedState[i];
                 checkedState = newChecked;
                 renderChapters();
                 updateProgress();
-                saveToLocalStorage(); // 保存
+                saveToLocalStorage();
                 showToast('新关卡已添加');
             });
 
@@ -1697,12 +1966,12 @@
                     chapters.forEach(c => c.tasks.forEach(() => newChecked.push(false)));
                     checkedState = newChecked;
                     expandedState = {};
-                    chapters.forEach((_, idx) => { expandedState[idx] = false; }); // 折叠
+                    chapters.forEach((_, idx) => { expandedState[idx] = false; });
                     renderChapters();
                     updateProgress();
                     deleteModal.classList.remove('show');
                     pendingDeleteChapter = null;
-                    saveToLocalStorage(); // 保存
+                    saveToLocalStorage();
                     showToast('关卡已删除');
                 }
             });
@@ -1718,7 +1987,6 @@
             initData();
             renderChapters();
             updateProgress();
-            generateQRCode();
             setupStickyScroll();
         })();
     </script>
