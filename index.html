@@ -261,8 +261,9 @@
             border: 2px solid #FFD700;
             box-shadow: 0 4px 8px rgba(199,69,43,0.1);
         }
+        /* 所有大于21px的字体统一设置为21px */
         .top-blessing span {
-            font-size: 24px;
+            font-size: 21px;
             margin: 0 6px;
         }
 
@@ -275,7 +276,7 @@
             padding: 12px 0;
         }
         .snow-header h2 {
-            font-size: 28px;
+            font-size: 21px;
             font-weight: 700;
             color: #C7452B;
             letter-spacing: 1px;
@@ -292,7 +293,6 @@
             font-weight: 600;
             box-shadow: 0 4px 8px rgba(199,69,43,0.3);
         }
-        /* 副标题样式 */
         .sub-header {
             text-align: center;
             color: #C7452B;
@@ -611,8 +611,9 @@
             border: 1px solid #C7452B;
             box-shadow: 0 4px 12px rgba(199,69,43,0.1);
         }
+        /* 所有大于21px的字体统一设置为21px */
         .blessing-message span {
-            font-size: 24px;
+            font-size: 21px;
             margin-right: 8px;
         }
 
@@ -623,7 +624,7 @@
             padding: 20px 0;
             width: 100%;
             color: white;
-            font-size: 24px;
+            font-size: 21px;
             font-weight: 700;
             display: flex;
             align-items: center;
@@ -688,11 +689,12 @@
             border: 2px solid #C7452B;
             box-shadow: 0 4px 12px rgba(199,69,43,0.2);
         }
+        /* 所有大于21px的字体统一设置为21px */
         #rolling-area {
             text-align: center;
             margin-bottom: 20px;
             min-height: 60px;
-            font-size: 24px;
+            font-size: 21px;
             font-weight: 700;
             color: #C7452B;
         }
@@ -760,12 +762,17 @@
             cursor: pointer;
         }
 
-        /* ========== 自适应媒体查询 ========== */
+        /* ========== 自适应媒体查询 - 所有字体在移动端等比例缩小 ========== */
         @media screen and (max-width: 480px) {
             body { padding: 12px; }
             #app { padding: 20px 16px; }
             #sticky-progress-container .sticky-content { padding: 0 16px; }
-            .snow-header h2 { font-size: 24px; }
+            /* 所有大于21px的字体在480px屏幕下缩小到18px */
+            .snow-header h2 { font-size: 18px; }
+            .top-blessing span { font-size: 18px; }
+            .blessing-message span { font-size: 18px; }
+            #rolling-area { font-size: 18px; }
+            .action-button { font-size: 18px; }
             .snow-badge { font-size: 16px; padding: 8px 14px; }
             .global-btn { font-size: 13px; padding: 10px 8px; white-space: normal; word-break: keep-all; }
             #switchThemeBtn { min-width: 120px; }
@@ -776,7 +783,6 @@
             .chapter-actions { flex-wrap: wrap; gap: 8px; }
             .chapter-btn { font-size: 13px; padding: 8px 12px; white-space: normal; }
             .task-label { font-size: 14px; }
-            .action-button { font-size: 20px; padding: 16px 0; }
             .top-blessing { font-size: 16px; padding: 10px; }
             .new-year-banner { font-size: 18px; padding: 10px; }
             .wisdom-tip, .ad-banner { font-size: 14px; padding: 12px; }
@@ -795,7 +801,12 @@
             body { padding: 8px; }
             #app { padding: 16px 12px; }
             #sticky-progress-container .sticky-content { padding: 0 12px; }
-            .snow-header h2 { font-size: 20px; }
+            /* 所有大于21px的字体在360px屏幕下缩小到16px */
+            .snow-header h2 { font-size: 16px; }
+            .top-blessing span { font-size: 16px; }
+            .blessing-message span { font-size: 16px; }
+            #rolling-area { font-size: 16px; }
+            .action-button { font-size: 16px; }
             .snow-badge { font-size: 14px; padding: 6px 10px; }
             .global-btn { font-size: 12px; padding: 8px 4px; }
             #switchThemeBtn { min-width: 100px; font-size: 12px; }
@@ -805,7 +816,6 @@
             .chapter-toggle { font-size: 18px; }
             .chapter-btn { font-size: 12px; padding: 6px 10px; }
             .task-label { font-size: 13px; }
-            .action-button { font-size: 18px; padding: 14px 0; }
             .top-blessing { font-size: 14px; }
             .new-year-banner { font-size: 16px; }
             .qrcode-placeholder { width: 120px; height: 120px; }
@@ -814,12 +824,16 @@
         @media screen and (min-width: 768px) {
             #app { max-width: 800px; padding: 32px 40px; }
             #sticky-progress-container .sticky-content { max-width: 800px; padding: 0 40px; }
-            .snow-header h2 { font-size: 32px; }
+            /* 所有大于21px的字体在大屏幕下保持21px，不放大 */
+            .snow-header h2 { font-size: 21px; }
+            .top-blessing span { font-size: 21px; }
+            .blessing-message span { font-size: 21px; }
+            #rolling-area { font-size: 21px; }
+            .action-button { font-size: 21px; }
             .global-btn { font-size: 16px; padding: 14px 16px; }
             .chapter-title { font-size: 20px; }
             .chapter-icon { font-size: 30px; }
             .task-label { font-size: 18px; }
-            .action-button { font-size: 28px; padding: 22px 0; }
             .top-blessing { font-size: 20px; }
             .new-year-banner { font-size: 24px; }
             .wisdom-tip { font-size: 16px; }
